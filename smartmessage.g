@@ -12,7 +12,6 @@ ore : 'Ore ' ORA;
 
 new_mess : 'Messaggio a';
 duepunti : ':';
-imp : 'Importante';
 
 
 TESTO
