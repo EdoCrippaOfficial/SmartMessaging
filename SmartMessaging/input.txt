@@ -5,6 +5,7 @@ Titolo "Primo messaggio"
 Corpo "Messaggio di gruppo con priorità 5"
 CC
 Img "link ad un immagine"
+Formattazione "All caps"
 
 Invia
 

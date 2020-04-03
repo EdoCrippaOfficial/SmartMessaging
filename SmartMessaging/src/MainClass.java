@@ -1,7 +1,5 @@
-
-
-import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.IOException;
@@ -12,7 +10,7 @@ public class MainClass {
 
     public static void main(String[] args) {
         try {
-            CharStream input = (CharStream) new ANTLRFileStream("input.txt");
+            CharStream input = CharStreams.fromFileName("input.txt");
             smartmessageLexer lexer = new smartmessageLexer(input);
             smartmessageParser parser = new smartmessageParser(new CommonTokenStream(lexer));
             parser.addParseListener(new smartmessageCustomListener());

@@ -1,4 +1,4 @@
-// Generated from /home/edo/Documents/SmartMessaging/SmartMessaging/src/smartmessage.g4 by ANTLR 4.8
+// Generated from /home/simone/IdeaProjects/SmartMessaging/smartmessaging/SmartMessaging/src/smartmessage.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -67,6 +67,16 @@ public interface smartmessageListener extends ParseTreeListener {
 	 */
 	void exitTitolo(smartmessageParser.TitoloContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link smartmessageParser#destinatario}.
+	 * @param ctx the parse tree
+	 */
+	void enterDestinatario(smartmessageParser.DestinatarioContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link smartmessageParser#destinatario}.
+	 * @param ctx the parse tree
+	 */
+	void exitDestinatario(smartmessageParser.DestinatarioContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link smartmessageParser#corpo}.
 	 * @param ctx the parse tree
 	 */
@@ -96,6 +106,16 @@ public interface smartmessageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitImg(smartmessageParser.ImgContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link smartmessageParser#format}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormat(smartmessageParser.FormatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link smartmessageParser#format}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormat(smartmessageParser.FormatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link smartmessageParser#new_mess}.
 	 * @param ctx the parse tree

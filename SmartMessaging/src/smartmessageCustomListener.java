@@ -32,7 +32,7 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
         if (ctx.cc() != null){
             variabili.put("cc", "true");
             System.out.println("CC TRUE");
-        }else{
+        } else {
             variabili.put("cc", "false");
             System.out.println("CC FALSE");
         }
@@ -46,6 +46,19 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
         }
     }
 
+    @Override
+    public void exitDestinatario(smartmessageParser.DestinatarioContext ctx) {
+        if (ctx.TESTO() != null) {
+            variabili.put("dest", ctx.TESTO().getText());
+            System.out.println("DESTINATARIO " + ctx.TESTO().getText());
+        }
+    }
 
-
+    @Override
+    public void exitFormat(smartmessageParser.FormatContext ctx) {
+        if (ctx.TESTO() != null) {
+            variabili.put("format", ctx.TESTO().getText());
+            System.out.println("FORMATTAZIONE " + ctx.TESTO().getText());
+        }
+    }
 }
