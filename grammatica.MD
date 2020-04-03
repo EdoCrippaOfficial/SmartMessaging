@@ -18,25 +18,26 @@ O2 -> .
 
 ## ANALISI
 
-	Sanity Checks
-		All nonterminals are reachable.
-		All nonterminals are realizable.
-		The grammar contains no cycles.
-		The grammar is null unambiguous.
+#### Sanity Checks
+    All nonterminals are reachable.
+    All nonterminals are realizable.
+    The grammar contains no cycles.
+    The grammar is null unambiguous.
 
-	Nonterminals
-		Symbol		Nullable?	Endable?	First set						Follow set
-		___________________________________________________________________________________________________
-		S0						Endable		priorita, invia, messaggio_a	$
-		S			Nullable	Endable		priorita, invia, messaggio_a	$
-		M						Endable		messaggio_a						priorita, invia, messaggio_a, $
-		TO									testo							duepunti
-		TO2			Nullable				testo							duepunti
-		O1			Nullable	Endable		img, cc							priorita, invia, messaggio_a, $
-		O2			Nullable	Endable		cc								priorita, invia, messaggio_a, $
+#### Nonterminals
 
-	Parsing Algorithms
-	LL(1)	The grammar is LL(1).	
-	LR(0)	Not LR(0) — it contains a shift-reduce conflict.
-	LR(1)	The grammar is LR(1).
-	LALR(1)	The grammar is LALR(1).
+| Symbol | Nullable? | Endable? | First set                    | Follow set                      |
+|--------|-----------|----------|------------------------------|---------------------------------|
+| S0     |           | Endable  | priorita, invia, messaggio_a | $                               |
+| S      | Nullable  | Endable  | priorita, invia, messaggio_a | $                               |
+| M      |           | Endable  | messaggio_a                  | priorita, invia, messaggio_a, $ |
+| TO     |           |          | testo                        | duepunti                        |
+| TO2    | Nullable  |          | testo                        | duepunti                        |
+| O1     | Nullable  | Endable  | img, cc                      | priorita, invia, messaggio_a, $ |
+| O2     | Nullable  | Endable  | cc                           | priorita, invia, messaggio_a, $ |
+
+#### Parsing Algorithms
+    LL(1)	The grammar is LL(1).	
+    LR(0)	Not LR(0) — it contains a shift-reduce conflict.
+    LR(1)	The grammar is LR(1).
+    LALR(1)	The grammar is LALR(1).
