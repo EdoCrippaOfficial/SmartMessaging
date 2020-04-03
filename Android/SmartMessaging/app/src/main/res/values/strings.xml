@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SmartMessaging</string>
+    <string name="input_example">Priorità 5\n\nMessaggio a \"Simone\" \"Andrea\" :\nTitolo \"Primo messaggio\"\nCorpo \"messaggio di gruppo. con priorità 5\"\nCC\nImg \"link ad un immagine\"\nFormattazione \"capitalization\"\n\nInvia</string>
+</resources>
