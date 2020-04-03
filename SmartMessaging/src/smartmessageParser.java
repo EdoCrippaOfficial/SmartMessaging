@@ -1,4 +1,4 @@
-// Generated from smartmessage.g4 by ANTLR 4.7.1
+// Generated from /home/edo/Documents/SmartMessaging/SmartMessaging/src/smartmessage.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class smartmessageParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -22,19 +22,28 @@ public class smartmessageParser extends Parser {
 		RULE_program = 0, RULE_priorita = 1, RULE_invia = 2, RULE_message = 3, 
 		RULE_opzioni = 4, RULE_titolo = 5, RULE_corpo = 6, RULE_cc = 7, RULE_img = 8, 
 		RULE_new_mess = 9, RULE_duepunti = 10;
-	public static final String[] ruleNames = {
-		"program", "priorita", "invia", "message", "opzioni", "titolo", "corpo", 
-		"cc", "img", "new_mess", "duepunti"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"program", "priorita", "invia", "message", "opzioni", "titolo", "corpo", 
+			"cc", "img", "new_mess", "duepunti"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'Priorit\u00E0 '", "'Invia'", "'Titolo '", "'Corpo '", "'CC'", 
-		"'Img '", "'Messaggio a'", "':'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, "TESTO", "NUM", 
-		"LINE_COMMENT", "WS"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'Priorit\u00E0 '", "'Invia'", "'Titolo '", "'Corpo '", "'CC'", 
+			"'Img '", "'Messaggio a'", "':'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, null, null, null, "TESTO", "NUM", 
+			"LINE_COMMENT", "WS"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -84,6 +93,7 @@ public class smartmessageParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class ProgramContext extends ParserRuleContext {
 		public List<MessageContext> message() {
 			return getRuleContexts(MessageContext.class);
