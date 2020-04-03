@@ -1,0 +1,10 @@
+Priorità 5
+
+Messaggio a "Simone" "Andrea" :
+Titolo "Primo messaggio"
+Corpo "Messaggio di gruppo con priorità 5"
+CC
+Img "link ad un immagine"
+
+Invia
+
