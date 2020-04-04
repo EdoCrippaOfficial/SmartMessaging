@@ -1,3 +1,5 @@
+//  Questo è un commento, verrà ignorato
+
 Priorità 5
 
 Messaggio a "Simone" "Andrea" :
@@ -12,8 +14,21 @@ Priorità 9
 Messaggio a "Edoardo" :
 Titolo "Messaggio singolo"
 Corpo "Messaggio singolo con priorità 9"
-CC
+//CC  // Commentare questa riga per togliere l'errore
 Formattazione "All caps"
 
 Invia
+
+Exit
+
+//  Esempi di errori in compilazione:
+//      Priorità a (lettera e non numero, o senza numero del tutto)
+//      Mettere Titolo 2 volte
+//      Sbagliare un letterale, tipo Messagggio con 3 g
+//          -->     Non esegue nulla, genera subito l'eccezione
+//
+//  Esempio di errore a runtime:
+//      Usare CC in un messaggio a singolo desitnatario
+//          -->     Esegue le istruzioni fino ad arrivare a quella con l'errore,
+//                  e poi genera l'eccezione
 

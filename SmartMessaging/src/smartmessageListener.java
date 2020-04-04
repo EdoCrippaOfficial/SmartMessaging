@@ -1,4 +1,4 @@
-// Generated from /home/simone/IdeaProjects/SmartMessaging/smartmessaging/SmartMessaging/src/smartmessage.g4 by ANTLR 4.8
+// Generated from /home/edo/Documents/SmartMessaging/SmartMessaging/src/smartmessage.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -136,4 +136,14 @@ public interface smartmessageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDuepunti(smartmessageParser.DuepuntiContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link smartmessageParser#exit}.
+	 * @param ctx the parse tree
+	 */
+	void enterExit(smartmessageParser.ExitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link smartmessageParser#exit}.
+	 * @param ctx the parse tree
+	 */
+	void exitExit(smartmessageParser.ExitContext ctx);
 }

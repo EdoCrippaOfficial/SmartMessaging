@@ -1,3 +1,5 @@
+import org.antlr.v4.runtime.misc.ParseCancellationException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,9 +50,11 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     public void exitOpzioni(smartmessageParser.OpzioniContext ctx) {
         if (ctx.cc() != null){
             if (current_msg.destinatari.size() == 1)
-                System.err.println("Error at line " + ctx.start.getLine() +
-                        " position " + ctx.start.getCharPositionInLine() +
-                        ". Non è possibile usare CC se c'è un singolo destinatario");
+                throw new ParseCancellationException("" +
+                        "line " + ctx.start.getLine() + ":" +
+                        ctx.start.getCharPositionInLine() + "" +
+                        " Non è possibile usare CC se c'è un singolo destinatario");
+
             current_msg.cc = true;
             System.out.println("CC TRUE");
         } else {
@@ -86,6 +90,12 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
                 System.out.println("FORMATTAZIONE " + testo);
             }
         }
+    }
+
+    @Override
+    public void enterExit(smartmessageParser.ExitContext ctx) {
+        System.out.println("\n ***********  PROGRAMMA TERMINATO  ***********");
+        System.exit(0);
     }
 
     private String removeQuotes(String input){

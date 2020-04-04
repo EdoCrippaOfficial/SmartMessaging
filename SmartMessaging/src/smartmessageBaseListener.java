@@ -1,4 +1,4 @@
-// Generated from /home/simone/IdeaProjects/SmartMessaging/smartmessaging/SmartMessaging/src/smartmessage.g4 by ANTLR 4.8
+// Generated from /home/edo/Documents/SmartMessaging/SmartMessaging/src/smartmessage.g4 by ANTLR 4.8
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -166,6 +166,18 @@ public class smartmessageBaseListener implements smartmessageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDuepunti(smartmessageParser.DuepuntiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExit(smartmessageParser.ExitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExit(smartmessageParser.ExitContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
