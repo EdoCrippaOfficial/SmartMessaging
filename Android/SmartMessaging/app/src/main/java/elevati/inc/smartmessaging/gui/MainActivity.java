@@ -3,6 +3,7 @@ package elevati.inc.smartmessaging.gui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -15,7 +16,6 @@ import elevati.inc.parser.Message;
 import elevati.inc.parser.MessageParser;
 import elevati.inc.smartmessaging.R;
 import elevati.inc.smartmessaging.utils.Format;
-import elevati.inc.smartmessaging.utils.FormatType;
 
 public class MainActivity extends Activity {
 
@@ -49,15 +49,13 @@ public class MainActivity extends Activity {
         parser.parse();
         List<Message> messages = parser.getMessages();
         consoleText = parser.getConsoleText();
-        StringBuilder messagesText = new StringBuilder();
-        for (Message m: messages) {
-            String formattedText = Format.formatText(m.getBody(), FormatType.fromString(m.getFormat()));
-            messagesText.append(formattedText).append("\n\n");
-        }
+        String textToDisplay = Format.formatMessages(messages);
         TextView textViewFormatted = findViewById(R.id.text_output);
-        textViewFormatted.setText(messagesText.toString());
+        textViewFormatted.setMovementMethod(new ScrollingMovementMethod());
+        textViewFormatted.setText(textToDisplay);
     }
 
+    // Dialog della console
     private void showConsoleDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setCanceledOnTouchOutside(true);

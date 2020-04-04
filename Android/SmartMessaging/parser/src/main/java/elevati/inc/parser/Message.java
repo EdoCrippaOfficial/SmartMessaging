@@ -7,15 +7,20 @@ public class Message {
 
     private int priority;
     private String title, body, img, format;
-    private ArrayList<String> receivers = new ArrayList<>();
-    private boolean cc;
+    private ArrayList<String> receivers;
+    private boolean cc, sendAfterThis;
+
+    public Message(int priority) {
+        this.priority = priority;
+        title = "";
+        body = "";
+        img = "";
+        format = "";
+        receivers = new ArrayList<>();
+    }
 
     public int getPriority() {
         return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public String getTitle() {
@@ -64,5 +69,13 @@ public class Message {
 
     public void setFormat(String format) {
         this.format = format;
+    }
+
+    public boolean isSendAfterThis() {
+        return sendAfterThis;
+    }
+
+    public void setSendAfterThis(boolean sendAfterThis) {
+        this.sendAfterThis = sendAfterThis;
     }
 }
