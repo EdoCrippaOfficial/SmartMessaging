@@ -14,9 +14,9 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     private List<Message> messages;
     private Set<String> acceptedFormats;
     private String consoleOutput, warnings;
+    private int priority;
 
     public smartmessageCustomListener() {
-        currentMessage = new Message();
         acceptedFormats = new HashSet<>();
         messages = new ArrayList<>();
         consoleOutput = "";
@@ -40,18 +40,17 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
 
     @Override
     public void exitPriorita(smartmessageParser.PrioritaContext ctx) {
-        if (ctx.NUM() != null) {
-            currentMessage.setPriority(Integer.parseInt(ctx.NUM().getText()));
+        try {
+            priority = Integer.parseInt(ctx.NUM().getText());
             consoleOutput += "PRIORITA' " + ctx.NUM().getText() + "\n";
-        } else {
-            currentMessage.setPriority(1);
-            warnings += "\nWARNING: unspecified priority. Setting it to \"1\"\n";
+        } catch (NumberFormatException e) {
+            warnings += "\nERROR: unspecified priority. Ignoring statement\n";
         }
     }
 
     @Override
     public void enterMessage(smartmessageParser.MessageContext ctx) {
-        Message newMessage = new Message();
+        Message newMessage = new Message(priority);
         messages.add(newMessage);
         currentMessage = newMessage;
     }
@@ -59,8 +58,7 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     @Override
     public void exitInvia(smartmessageParser.InviaContext ctx) {
         consoleOutput += "INVIA" + "\n";
-        //messages.clear();
-        //currentMessage = null;
+        currentMessage.setSendAfterThis(true);
     }
 
     @Override
@@ -70,7 +68,6 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
             currentMessage.setTitle(removeQuotes(text));
             consoleOutput += "TITOLO " + text + "\n";
         } else {
-            currentMessage.setTitle("");
             warnings += "\nWARNING: empty title.";
         }
     }
@@ -82,7 +79,6 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
             currentMessage.setBody(removeQuotes(text));
             consoleOutput += "CORPO " + text + "\n";
         } else {
-            currentMessage.setBody("");
             warnings += "\nWARNING: empty body.\n";
         }
     }
@@ -92,9 +88,12 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
         if (ctx.cc() != null) {
             if (currentMessage.getReceivers().size() == 1) {
                 warnings += "\nWARNING: can't enable CC with only one receiver\n";
+                currentMessage.setCc(false);
+                consoleOutput += "CC forced to FALSE" + "\n";
+            } else {
+                currentMessage.setCc(true);
+                consoleOutput += "CC TRUE" + "\n";
             }
-            currentMessage.setCc(true);
-            consoleOutput += "CC TRUE" + "\n";
         } else {
             currentMessage.setCc(false);
             consoleOutput += "CC FALSE" + "\n";
@@ -108,7 +107,6 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
             currentMessage.setImg(removeQuotes(text));
             consoleOutput += "IMG " + text + "\n";
         } else {
-            currentMessage.setImg("");
             warnings += "\nWARNING: unspecified image link\n";
         }
     }
@@ -128,11 +126,11 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     public void exitFormat(smartmessageParser.FormatContext ctx) {
         if (ctx.TESTO() != null) {
             String format = removeQuotes(ctx.TESTO().getText().toLowerCase());
-            consoleOutput += "FORMATTAZIONE " + format + "\n";
+            consoleOutput += "FORMATTAZIONE \"" + format + "\"\n";
             if (acceptedFormats.contains(format)) {
                 currentMessage.setFormat(format);
             } else {
-                warnings += "\nWARNING: " + format + " is not an accepted format type. Ignoring value and setting to \"none\"\n";
+                warnings += "\nWARNING: \"" + format + "\" is not an accepted format type. Ignoring value and setting to \"none\"\n";
                 currentMessage.setFormat("none");
             }
         }

@@ -13,7 +13,6 @@ import elevati.inc.parser.antlr.smartmessageParser;
 
 public class MessageParser {
 
-    private boolean error;
     private String inputText, consoleText;
     private List<Message> messages;
 
@@ -39,11 +38,8 @@ public class MessageParser {
         parser.addErrorListener(errorListener);
         parser.addParseListener(listener);
         parser.program();
-        consoleText = listener.getConsoleOutput();
         messages = listener.getMessages();
-        if (parser.getNumberOfSyntaxErrors() != 0) {
-            error = true;
-            consoleText += errorListener.getErrors();
-        }
+        consoleText = listener.getConsoleOutput();
+        consoleText += errorListener.getErrors();
     }
 }

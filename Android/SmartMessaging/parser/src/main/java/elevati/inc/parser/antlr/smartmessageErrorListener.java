@@ -19,7 +19,7 @@ public class smartmessageErrorListener implements ANTLRErrorListener {
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-        errors += "\nERROR: " + msg + "\n";
+        errors += "\nERROR: at line " + line + ":" + charPositionInLine + " " + msg + "\n";
     }
 
     @Override

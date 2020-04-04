@@ -1,6 +1,6 @@
 package elevati.inc.smartmessaging.utils;
 
-public enum FormatType {
+enum FormatType {
 
     NONE ("none"),
     ALL_CAPS ("all caps"),
