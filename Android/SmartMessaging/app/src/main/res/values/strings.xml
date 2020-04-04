@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SmartMessaging</string>
-    <string name="input_example">Priorità 5\n\nMessaggio a \"Simone\" \"Andrea\" :\nTitolo \"Primo messaggio\"\nCorpo \"messaggio di gruppo. con priorità 5\"\nCC\nImg \"link ad un immagine\"\nFormattazione \"capitalization\"\n\nInvia</string>
+    <string name="input_example">Priorità 5\n\nMessaggio a \"Simone\" \"Andrea\" :\nTitolo \"Primo messaggio\"\nCorpo \"Messaggio di gruppo con priorità 5\"\nCC\nImg \"link ad un immagine\"\nFormattazione \"all caps\"\n\nPriorità 9\n\nMessaggio a \"Edoardo\" :\nTitolo \"Messaggio singolo\"\nCorpo \"messaggio singolo. con priorità 9\"\nCC\nFormattazione \"capitalization\"\n\nInvia
+</string>
 </resources>

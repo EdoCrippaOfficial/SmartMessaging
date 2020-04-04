@@ -9,6 +9,8 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
 import elevati.inc.parser.Message;
 import elevati.inc.parser.MessageParser;
 import elevati.inc.smartmessaging.R;
@@ -45,11 +47,15 @@ public class MainActivity extends Activity {
     private void handleParseButtonClick(String inputText) {
         MessageParser parser = new MessageParser(inputText);
         parser.parse();
-        Message message = parser.getMessage();
+        List<Message> messages = parser.getMessages();
         consoleText = parser.getConsoleText();
-        String formattedText = Format.formatText(message.getBody(), FormatType.fromString(message.getFormat()));
+        StringBuilder messagesText = new StringBuilder();
+        for (Message m: messages) {
+            String formattedText = Format.formatText(m.getBody(), FormatType.fromString(m.getFormat()));
+            messagesText.append(formattedText).append("\n\n");
+        }
         TextView textViewFormatted = findViewById(R.id.text_output);
-        textViewFormatted.setText(formattedText);
+        textViewFormatted.setText(messagesText.toString());
     }
 
     private void showConsoleDialog() {

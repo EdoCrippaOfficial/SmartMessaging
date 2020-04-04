@@ -4,6 +4,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+import java.util.List;
+
 import elevati.inc.parser.antlr.smartmessageCustomListener;
 import elevati.inc.parser.antlr.smartmessageErrorListener;
 import elevati.inc.parser.antlr.smartmessageLexer;
@@ -13,7 +15,7 @@ public class MessageParser {
 
     private boolean error;
     private String inputText, consoleText;
-    private Message message;
+    private List<Message> messages;
 
     public MessageParser(String inputText) {
         this.inputText = inputText;
@@ -23,8 +25,8 @@ public class MessageParser {
         return consoleText;
     }
 
-    public Message getMessage() {
-        return message;
+    public List<Message> getMessages() {
+        return messages;
     }
 
     public void parse() {
@@ -38,15 +40,10 @@ public class MessageParser {
         parser.addParseListener(listener);
         parser.program();
         consoleText = listener.getConsoleOutput();
-        message = listener.getMessage();
+        messages = listener.getMessages();
         if (parser.getNumberOfSyntaxErrors() != 0) {
             error = true;
             consoleText += errorListener.getErrors();
         }
     }
-
-    public boolean success() {
-        return !error && message != null;
-    }
-
 }

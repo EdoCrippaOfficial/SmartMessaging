@@ -1,23 +1,27 @@
 package elevati.inc.parser.antlr;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import elevati.inc.parser.Message;
 
 public class smartmessageCustomListener extends smartmessageBaseListener {
 
-    private Message message;
+    private Message currentMessage;
+    private List<Message> messages;
     private Set<String> acceptedFormats;
     private String consoleOutput, warnings;
 
     public smartmessageCustomListener() {
-        message = new Message();
+        currentMessage = new Message();
         acceptedFormats = new HashSet<>();
+        messages = new ArrayList<>();
         consoleOutput = "";
         warnings = "";
-        String[] formats = {"\"none\"", "\"all caps\"", "\"capitalization\"", "\"lowercase\""};
+        String[] formats = {"none", "all caps", "capitalization", "lowercase"};
         Collections.addAll(acceptedFormats, formats);
     }
 
@@ -25,8 +29,8 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
         return consoleOutput;
     }
 
-    public Message getMessage() {
-        return message;
+    public List<Message> getMessages() {
+        return messages;
     }
 
     @Override
@@ -37,27 +41,36 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     @Override
     public void exitPriorita(smartmessageParser.PrioritaContext ctx) {
         if (ctx.NUM() != null) {
-            message.setPriority(Integer.parseInt(ctx.NUM().getText()));
+            currentMessage.setPriority(Integer.parseInt(ctx.NUM().getText()));
             consoleOutput += "PRIORITA' " + ctx.NUM().getText() + "\n";
         } else {
-            message.setPriority(1);
+            currentMessage.setPriority(1);
             warnings += "\nWARNING: unspecified priority. Setting it to \"1\"\n";
         }
     }
 
     @Override
+    public void enterMessage(smartmessageParser.MessageContext ctx) {
+        Message newMessage = new Message();
+        messages.add(newMessage);
+        currentMessage = newMessage;
+    }
+
+    @Override
     public void exitInvia(smartmessageParser.InviaContext ctx) {
         consoleOutput += "INVIA" + "\n";
+        //messages.clear();
+        //currentMessage = null;
     }
 
     @Override
     public void exitTitolo(smartmessageParser.TitoloContext ctx) {
         if (ctx.TESTO() != null) {
             String text = ctx.TESTO().getText();
-            message.setTitle(text.substring(1, text.length()-1));
+            currentMessage.setTitle(removeQuotes(text));
             consoleOutput += "TITOLO " + text + "\n";
         } else {
-            message.setTitle("");
+            currentMessage.setTitle("");
             warnings += "\nWARNING: empty title.";
         }
     }
@@ -66,10 +79,10 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     public void exitCorpo(smartmessageParser.CorpoContext ctx) {
         if (ctx.TESTO() != null) {
             String text = ctx.TESTO().getText();
-            message.setBody(text.substring(1, text.length()-1));
+            currentMessage.setBody(removeQuotes(text));
             consoleOutput += "CORPO " + text + "\n";
         } else {
-            message.setBody("");
+            currentMessage.setBody("");
             warnings += "\nWARNING: empty body.\n";
         }
     }
@@ -77,10 +90,13 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     @Override
     public void exitOpzioni(smartmessageParser.OpzioniContext ctx) {
         if (ctx.cc() != null) {
-            message.setCc(true);
+            if (currentMessage.getReceivers().size() == 1) {
+                warnings += "\nWARNING: can't enable CC with only one receiver\n";
+            }
+            currentMessage.setCc(true);
             consoleOutput += "CC TRUE" + "\n";
         } else {
-            message.setCc(false);
+            currentMessage.setCc(false);
             consoleOutput += "CC FALSE" + "\n";
         }
     }
@@ -89,10 +105,10 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     public void exitImg(smartmessageParser.ImgContext ctx) {
         if (ctx.TESTO() != null) {
             String text = ctx.TESTO().getText();
-            message.setImg(text.substring(1, text.length()-1));
+            currentMessage.setImg(removeQuotes(text));
             consoleOutput += "IMG " + text + "\n";
         } else {
-            message.setImg("");
+            currentMessage.setImg("");
             warnings += "\nWARNING: unspecified image link\n";
         }
     }
@@ -101,7 +117,7 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     public void exitDestinatario(smartmessageParser.DestinatarioContext ctx) {
         if (ctx.TESTO() != null) {
             String text = ctx.TESTO().getText();
-            message.addReceiver(text.substring(1, text.length()-1));
+            currentMessage.addReceiver(removeQuotes(text));
             consoleOutput += "DESTINATARIO " + text + "\n";
         } else {
             warnings += "\nWARNING: empty receiver\n";
@@ -111,14 +127,18 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     @Override
     public void exitFormat(smartmessageParser.FormatContext ctx) {
         if (ctx.TESTO() != null) {
-            String format = ctx.TESTO().getText().toLowerCase();
+            String format = removeQuotes(ctx.TESTO().getText().toLowerCase());
             consoleOutput += "FORMATTAZIONE " + format + "\n";
             if (acceptedFormats.contains(format)) {
-                message.setFormat(format.substring(1, format.length()-1));
+                currentMessage.setFormat(format);
             } else {
                 warnings += "\nWARNING: " + format + " is not an accepted format type. Ignoring value and setting to \"none\"\n";
-                message.setFormat("none");
+                currentMessage.setFormat("none");
             }
         }
+    }
+
+    private String removeQuotes(String input){
+        return input.substring(1, input.length() - 1);
     }
 }
