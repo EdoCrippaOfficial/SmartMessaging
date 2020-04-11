@@ -2,9 +2,6 @@ package inc.elevati.smartmessaging.view.utils;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import inc.elevati.smartmessaging.R;
 
+// ProgressDialog non annullabile e con testo settabile dinamicamente
 public class ProgressDialog extends DialogFragment {
 
     public static ProgressDialog newInstance(int stringId) {

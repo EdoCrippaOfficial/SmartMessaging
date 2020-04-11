@@ -10,14 +10,11 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.List;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +30,6 @@ import inc.elevati.smartmessaging.viewmodel.MessagesListViewModel;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ViewModelProvider viewModelProvider;
-    private Observer<List<Message>> messagesObserver;
     private SwipeRefreshLayout messagesRefresher;
     private MessageItemAdapter messageItemAdapter;
     private DrawerLayout drawerLayout;
@@ -45,16 +41,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (darkTheme)
             setTheme(R.style.DarkTheme);
         setContentView(R.layout.activity_main);
+
+        // Oggetto che permette di recuperare i ViewModel
         viewModelProvider = new ViewModelProvider(this);
         initToolbar();
         initDrawer(darkTheme);
         initMessagesAdapter();
         messagesRefresher = findViewById(R.id.messages_refresher);
         messagesRefresher.setOnRefreshListener(this);
-        messagesObserver = messages -> {
-            messagesRefresher.setRefreshing(false);
-            messageItemAdapter.updateMessages(messages);
-        };
         showMessages();
     }
 
@@ -71,10 +65,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void initDrawer(boolean darkTheme) {
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView drawerView = findViewById(R.id.drawer_view);
+
+        // Evidenziato il bottone tema scuro
         if (darkTheme)
             drawerView.setCheckedItem(R.id.bn_dark);
         else
             drawerView.setCheckedItem(R.id.bn_light);
+
+        // Click sulla barra laterale
         drawerView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.bn_dark:
@@ -90,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
             return false;
         });
+
+        // Recupero dei dati da visualizzare sulla header della barra laterale
         AuthViewModel authViewModel = viewModelProvider.get(AuthViewModel.class);
         authViewModel.getCurrentUser().observe(this, user -> {
             View headerView = drawerView.getHeaderView(0);
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void initMessagesAdapter() {
         RecyclerView container = findViewById(R.id.messages_container);
+
+        // Creazione adapter, l'argomento è la funzione da chiamare quando viene cliccato un messaggio (interfaccia OnMessageClickListener)
         messageItemAdapter = new MessageItemAdapter(this::showMessageDialog);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         container.setLayoutManager(layoutManager);
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void showMessageDialog(Message message) {
         MessageDetailViewModel messageDetailViewModel = viewModelProvider.get(MessageDetailViewModel.class);
+
+        // Salvataggio dell'oggetto message in un apposito ViewModel, ci penserà il dialog creato a recuperarlo
         messageDetailViewModel.setMessage(message);
         MessageDialog messageDialog = MessageDialog.newInstance();
         messageDialog.show(getSupportFragmentManager(), "");
@@ -119,9 +123,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void showMessages() {
         AuthViewModel authViewModel = viewModelProvider.get(AuthViewModel.class);
+
+        // Osservazione del LiveData richiesto che conterrà i messaggi quando sono pronti per essere visualizzati
         authViewModel.getCurrentUser().observe(this, user -> {
             MessagesListViewModel messagesListViewModel = viewModelProvider.get(MessagesListViewModel.class);
-            messagesListViewModel.getFilteredByReceiverList(user.getName()).observe(this, messagesObserver);
+            messagesListViewModel.getFilteredByReceiverList(user.getName()).observe(this, messages -> {
+                messagesRefresher.setRefreshing(false);
+                messageItemAdapter.updateMessages(messages);
+            });
         });
     }
 
@@ -146,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
+
+            // Cambio dell'ordine di visualizzazione
             case R.id.bn_newest:
                 messageItemAdapter.setSortCriteria(MessageItemAdapter.SORT_NEWEST);
                 break;

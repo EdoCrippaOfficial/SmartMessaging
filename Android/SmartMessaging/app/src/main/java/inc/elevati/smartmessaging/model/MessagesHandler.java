@@ -7,6 +7,7 @@ import java.util.List;
 
 import androidx.lifecycle.MutableLiveData;
 
+// Classe che ritorna messaggi fatti a caso
 public class MessagesHandler {
 
     private static MessagesHandler instance;

@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData;
 
 public class FirebaseAuthHelper {
 
+    // Costanti per il risultato delle operazioni
     public final static int REGISTER_ACCOUNT_CREATED = 0;
     public final static int REGISTER_FAILED_ALREADY_EXISTS = 1;
     public final static int REGISTER_FAILED_UNKNOWN = 2;
@@ -23,7 +24,10 @@ public class FirebaseAuthHelper {
     public final static int LOGIN_FAILED_TOO_MANY_REQUESTS = 13;
     public final static int LOGIN_FAILED_UNKNOWN = 14;
 
+    // Singleton
     private static FirebaseAuthHelper instance;
+
+    // Utente attualmente loggato
     private MutableLiveData<User> currentUser;
 
     private FirebaseAuthHelper() { }
@@ -45,6 +49,8 @@ public class FirebaseAuthHelper {
 
     public LiveData<User> getCurrentUser() {
         if (currentUser == null) {
+
+            // Inizializza l'oggetto LiveData che sarà osservato dalla View interessata
             setCurrentUser();
         }
         return currentUser;
@@ -53,11 +59,11 @@ public class FirebaseAuthHelper {
     public LiveData<Integer> register(final String name, String email, String password) {
         MutableLiveData<Integer> result = new MutableLiveData<>();
 
-        // Try to create account
+        // Creazione account
         Task<Void> mainTask = FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email, password)
 
-                // Update user name
+                // Setta il nome utente dopo la registrazione di email e password
                 .continueWithTask(previousTask -> {
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(name)
@@ -65,29 +71,30 @@ public class FirebaseAuthHelper {
                     return previousTask.getResult().getUser().updateProfile(profileUpdates);
                 });
 
-        // Result listener
+        // Risultato dell'operazione
         mainTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 result.setValue(REGISTER_ACCOUNT_CREATED);
             } else {
-                System.out.println(task.getException());
 
-                // Account already exists
+                // Account già esistente
                 if (task.getException() instanceof FirebaseAuthUserCollisionException)
                     result.setValue(REGISTER_FAILED_ALREADY_EXISTS);
 
-                // Unknown error
+                // Errore sconosciuto
                 else
                     result.setValue(REGISTER_FAILED_UNKNOWN);
             }
         });
+
+        // LiveData osservabile
         return result;
     }
 
     public LiveData<Integer> login(String email, String password) {
         MutableLiveData<Integer> result = new MutableLiveData<>();
 
-        // Try to sign in
+        // Tentativo di login
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -95,28 +102,29 @@ public class FirebaseAuthHelper {
                         result.setValue(LOGIN_OK);
                     } else {
 
-                        System.out.println(task.getException());
-
-                        // Account doesn't exists
+                        // Account non esiste
                         if (task.getException() instanceof FirebaseAuthInvalidUserException)
                             result.setValue(LOGIN_FAILED_NO_ACCOUNT);
 
-                        // Wrong password
+                        // Password errata
                         else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException)
                             result.setValue(LOGIN_FAILED_WRONG_PASSWORD);
 
-                        // Too many requests
+                        // Richieste bloccate da Firebase
                         else if (task.getException() instanceof FirebaseTooManyRequestsException)
                             result.setValue(LOGIN_FAILED_TOO_MANY_REQUESTS);
 
-                        // Unknown error
+                        // Errore sconosciuto
                         else
                             result.setValue(LOGIN_FAILED_UNKNOWN);
                     }
                 });
+
+        // LiveData osservabile
         return result;
     }
 
+    // Set dell'utente corrente in un oggetto LiveData
     private void setCurrentUser() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         User user = new User(firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getUid());

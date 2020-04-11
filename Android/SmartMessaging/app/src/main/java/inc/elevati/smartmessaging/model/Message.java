@@ -28,6 +28,8 @@ public class Message {
         this.priority = priority;
         this.receivers = receivers;
         this.timestamp = timestamp;
+
+        // Controllo se la data è di oggi o in quest'anno per cambiare la visualizzazione
         this.isToday = DateUtils.isToday(timestamp);
         Time time = new Time();
         time.set(timestamp);
@@ -68,6 +70,7 @@ public class Message {
         return isThisYear;
     }
 
+    // Metodo per caricare l'immagine. Settato nel xml del layout e chiamato via data binding
     @BindingAdapter("image")
     public static void loadImage(final ImageView imageView, String imageUrl) {
         if (imageUrl != null && imageUrl.length() > 0) {

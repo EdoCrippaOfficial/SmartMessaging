@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel;
 import inc.elevati.smartmessaging.model.FirebaseAuthHelper;
 import inc.elevati.smartmessaging.model.User;
 
+// ViewModel che si occupa della comunizazione tra View e Firebase Auth
 public class AuthViewModel extends ViewModel {
 
+    // Replica delle costanti per evitare di riferirsi a oggetti di Model nelle View
     public final static int REGISTER_ACCOUNT_CREATED = FirebaseAuthHelper.REGISTER_ACCOUNT_CREATED;
     public final static int REGISTER_FAILED_ALREADY_EXISTS = FirebaseAuthHelper.REGISTER_FAILED_ALREADY_EXISTS;
     public final static int REGISTER_FAILED_UNKNOWN = FirebaseAuthHelper.REGISTER_FAILED_UNKNOWN;
@@ -17,6 +19,8 @@ public class AuthViewModel extends ViewModel {
     public final static int LOGIN_FAILED_TOO_MANY_REQUESTS = FirebaseAuthHelper.LOGIN_FAILED_TOO_MANY_REQUESTS;
     public final static int LOGIN_FAILED_UNKNOWN = FirebaseAuthHelper.LOGIN_FAILED_UNKNOWN;
 
+    // Salvataggio dei risultati delle operazioni nel caso le View fossero distrutte
+    // e ricreate e avessero a quel punto bisogno di conocere il risultato
     private LiveData<Integer> registrationResult, loginResult;
 
     public LiveData<User> getCurrentUser() {
@@ -39,6 +43,8 @@ public class AuthViewModel extends ViewModel {
     public LiveData<Integer> requireRegistrationResult() {
         if (registrationResult == null) {
             registrationResult = new MutableLiveData<>();
+
+            // Settaggio di errore sconosciuto nel caso (?) questa funzione fosse chiamata con nessun risultato in sospeso
             ((MutableLiveData<Integer>) registrationResult).setValue(REGISTER_FAILED_UNKNOWN);
         }
         return registrationResult;
@@ -52,6 +58,8 @@ public class AuthViewModel extends ViewModel {
     public LiveData<Integer> requireLoginResult() {
         if (loginResult == null) {
             loginResult = new MutableLiveData<>();
+
+            // Settaggio di errore sconosciuto nel caso (?) questa funzione fosse chiamata con nessun risultato in sospeso
             ((MutableLiveData<Integer>) loginResult).setValue(LOGIN_FAILED_UNKNOWN);
         }
         return loginResult;

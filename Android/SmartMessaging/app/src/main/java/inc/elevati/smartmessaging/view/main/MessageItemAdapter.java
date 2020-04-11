@@ -17,6 +17,7 @@ import inc.elevati.smartmessaging.model.Message;
 
 public class MessageItemAdapter extends RecyclerView.Adapter<MessageItemAdapter.MessageViewHolder> {
 
+    // Criteri di ordinamento
     final static int SORT_NEWEST = 0;
     final static int SORT_OLDEST = 1;
     final static int SORT_PRIORITY_HIGH = 2;
@@ -29,11 +30,14 @@ public class MessageItemAdapter extends RecyclerView.Adapter<MessageItemAdapter.
     MessageItemAdapter(OnMessageClickListener messageClickListener) {
         this.messageClickListener = messageClickListener;
         this.messages = new ArrayList<>();
+
+        // Ordinamento standard dal più recente
         this.sorter = (o1, o2) -> Long.compare(o1.getTimestamp(), o2.getTimestamp());
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
 
+        // Nessun riferimento alle views ma solo al binding, al quale bisogna fornire il messaggio di cui visualizzare i dati
         MessageListItemBinding binding;
 
         MessageViewHolder(MessageListItemBinding binding) {
@@ -53,6 +57,8 @@ public class MessageItemAdapter extends RecyclerView.Adapter<MessageItemAdapter.
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         MessageListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.message_list_item, parent, false);
+
+        // Listener fornito al binding, settato nel onClick nel xml del bottone
         binding.setListener(messageClickListener);
         return new MessageViewHolder(binding);
     }

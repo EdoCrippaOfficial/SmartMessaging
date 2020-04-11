@@ -46,7 +46,8 @@ public class LoginFragment extends Fragment {
         // Clear error when users provides input in TextInputEditTexts
         clearEditTextErrorOnInput();
 
-        // ProgressDialog retrieval
+        // Recupero di un eventuale ProgressDialog già presente. Questo vuol dire che l'activity è
+        // stata distrutta mentre era in corso un'operazione, quindi si richiede al ViewModel l'esito
         progressDialog = (ProgressDialog) getParentFragmentManager().findFragmentByTag("progress");
         if (progressDialog != null)
             requireLoginResult();
@@ -85,11 +86,15 @@ public class LoginFragment extends Fragment {
         }
         showProgressDialog();
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        // Observer sull'oggetto LiveData. Viene chiamata la funzione handleLoginResult quando vi è un cambiamento sul LiveData
         authViewModel.login(email, password).observe(getViewLifecycleOwner(), this::handleLoginResult);
     }
 
     private void requireLoginResult() {
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        // In questo caso il ViewModel ritorna il LiveData che la view stava osservando prima di essere distrutta
         authViewModel.requireLoginResult().observe(getViewLifecycleOwner(), this::handleLoginResult);
     }
 
@@ -146,6 +151,7 @@ public class LoginFragment extends Fragment {
         if (isAdded()) Toast.makeText(getContext(), R.string.login_unknown_error, Toast.LENGTH_SHORT).show();
     }
 
+    // Cancellazione degli errori quando vi è un nuovo input
     private void clearEditTextErrorOnInput() {
         textInputEmail.addTextChangedListener(new TextWatcher() {
             @Override

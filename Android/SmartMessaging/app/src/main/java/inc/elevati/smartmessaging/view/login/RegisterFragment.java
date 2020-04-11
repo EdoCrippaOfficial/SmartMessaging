@@ -52,7 +52,8 @@ public class RegisterFragment extends Fragment {
         // Clear error when users provides input in TextInputEditTexts
         clearEditTextErrorOnInput();
 
-        // ProgressDialog retrieval
+        // Recupero di un eventuale ProgressDialog già presente. Questo vuol dire che l'activity è
+        // stata distrutta mentre era in corso un'operazione, quindi si richiede al ViewModel l'esito
         progressDialog = (ProgressDialog) getParentFragmentManager().findFragmentByTag("progress");
         if (progressDialog != null)
             requireRegistrationResult();
@@ -102,11 +103,15 @@ public class RegisterFragment extends Fragment {
         }
         showProgressDialog();
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        // Observer sull'oggetto LiveData. Viene chiamata la funzione handleRegistrationResult quando vi è un cambiamento sul LiveData
         authViewModel.register(name, email, password).observe(getViewLifecycleOwner(), this::handleRegistrationResult);
     }
 
     private void requireRegistrationResult() {
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        // In questo caso il ViewModel ritorna il LiveData che la view stava osservando prima di essere distrutta
         authViewModel.requireRegistrationResult().observe(getViewLifecycleOwner(), this::handleRegistrationResult);
     }
 
@@ -165,6 +170,7 @@ public class RegisterFragment extends Fragment {
         textLayoutPassword2.setError(getString(R.string.register_password_not_match));
     }
 
+    // Cancellazione degli errori quando vi è un nuovo input
     private void clearEditTextErrorOnInput() {
         textInputName.addTextChangedListener(new TextWatcher() {
             @Override

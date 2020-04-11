@@ -22,7 +22,7 @@ public class AuthActivity extends FragmentActivity {
             setTheme(R.style.DarkTheme);
         setContentView(R.layout.activity_login);
 
-        // Fragment inflation if activity il launched for the first time
+        // Creazione fragment se l'activity è lanciata la prima volta (altrimenti ci pensa da solo)
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -35,6 +35,8 @@ public class AuthActivity extends FragmentActivity {
     protected void onStart() {
         super.onStart();
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        // Controllo se vi è già un utente autenticato
         if (authViewModel.isAuthenticated())
             startMainActivity();
     }

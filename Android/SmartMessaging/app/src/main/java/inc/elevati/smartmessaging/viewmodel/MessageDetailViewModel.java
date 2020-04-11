@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import inc.elevati.smartmessaging.model.Message;
 
+// ViewModel che si occupa semplicemente di tenere salvato il messaggio da visualizzare nel dialog mentre questo viene creato
 public class MessageDetailViewModel extends ViewModel {
 
     private MutableLiveData<Message> message;

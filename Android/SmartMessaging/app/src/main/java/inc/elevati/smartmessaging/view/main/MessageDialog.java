@@ -33,9 +33,12 @@ public class MessageDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final MessageLayoutBinding binding = DataBindingUtil.inflate(inflater, R.layout.message_layout, container, false);
 
+        // Recuper dell'oggetto Message da visualizzare (showMessage)
         viewModelProvider = new ViewModelProvider(requireActivity());
         MessageDetailViewModel messageDetailViewModel = viewModelProvider.get(MessageDetailViewModel.class);
         messageDetailViewModel.getMessage().observe(getViewLifecycleOwner(), message -> showMessage(message, binding));
+
+        // Non cè bisogno di settare i dati sugli oggetti grafici perchè sono già presenti nel xml sfruttando il data binding
         return binding.getRoot();
     }
 
@@ -54,7 +57,7 @@ public class MessageDialog extends DialogFragment {
     private void showMessage(Message message, MessageLayoutBinding binding) {
         binding.setMessage(message);
 
-        // Set receivers text (not possible with data binding as receivers length in unknown)
+        // Visualizzazione destinatari (no data binding perchè è una lista con lunghezza dinamica)
         TextView tv_receivers = binding.getRoot().findViewById(R.id.tv_receivers);
         StringBuilder builder = new StringBuilder();
         for (User user: message.getReceivers()) {
@@ -62,10 +65,10 @@ public class MessageDialog extends DialogFragment {
         }
         tv_receivers.setText(getString(R.string.receivers, builder.toString()));
 
-        // Delete button listener
+        // Listener bottone cancella, operazione sempre attraverso il ViewModel
         binding.getRoot().findViewById(R.id.bn_delete).setOnClickListener(v -> {
-            MessagesListViewModel sentViewModel = viewModelProvider.get(MessagesListViewModel.class);
-            sentViewModel.deleteMessage(message);
+            MessagesListViewModel messagesListViewModel = viewModelProvider.get(MessagesListViewModel.class);
+            messagesListViewModel.deleteMessage(message);
 
             // Dismiss dialog
             dismiss();
