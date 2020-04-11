@@ -1,54 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp">
-
-    <EditText
-        android:id="@+id/text_input"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:text="@string/input_example"
-        android:textSize="22sp"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_blue_dark"
-        android:scrollbars = "vertical"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/text_output"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_blue_dark"
-        android:textSize="22sp"
-        android:scrollbars = "vertical"
-        android:layout_marginTop="20dp" />
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.2"
-        android:gravity="center"
-        android:layout_marginTop="20dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/bn_parse"
-            android:layout_width="150dp"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Parse"
-            android:layout_marginEnd="20dp"/>
+            android:background="?colorPrimary"
+            android:elevation="10dp"
+            app:titleTextColor="?titleTextColor" />
 
-        <Button
-            android:id="@+id/bn_console"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Console" />
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/messages_refresher"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/messages_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:scrollbarThumbVertical="@drawable/scrollbars_vertical" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/drawer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:itemBackground="@drawable/drawer_item_background"
+        app:itemTextColor="?itemIconTint"
+        app:itemIconTint="?itemIconTint"
+        app:menu="@menu/drawer_items"
+        app:headerLayout="@layout/drawer_header"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

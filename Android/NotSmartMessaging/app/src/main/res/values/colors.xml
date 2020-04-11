@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryLight">#00AAFF</color>
+    <color name="colorBackgroundLight">#EBEBEB</color>
+    <color name="titleTextLight">#EBEBEB</color>
+    <color name="textPrimaryLight">#050505</color>
+    <color name="textSecondaryLight">#252525</color>
+    <color name="textTertiaryLight">#454545</color>
+    <color name="dividerLight">#AAAAAA</color>
+
+    <color name="colorAccent">#2E2ED1</color>
+
+</resources>

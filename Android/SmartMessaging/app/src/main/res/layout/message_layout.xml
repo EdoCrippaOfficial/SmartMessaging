@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="message"
+            type="inc.elevati.smartmessaging.model.Message" />
+    </data>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="?colorPrimary"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="@{message.title}" />
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:visibility="gone"
+            app:image="@{message.imageUrl}" />
+
+        <ScrollView
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:scrollbarThumbVertical="@drawable/scrollbars_vertical"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/tv_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@{message.body}" />
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/bn_delete"
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_delete"
+                android:tint="@color/colorAccent"
+                android:layout_marginEnd="25dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:scrollbarThumbHorizontal="@drawable/scrollbars_horizontal"
+                android:layout_toStartOf="@id/bn_delete">
+
+                <TextView
+                    android:id="@+id/tv_receivers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceSmall" />
+
+            </HorizontalScrollView>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:background="?colorPrimary"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:text="@{@string/date(message.timestamp)}"/>
+
+    </LinearLayout>
+
+</layout>

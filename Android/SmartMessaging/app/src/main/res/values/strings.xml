@@ -1,4 +1,41 @@
 <resources>
     <string name="app_name">SmartMessaging</string>
-    <string name="input_example">Priorità 5\n\nMessaggio a \"Simone\" \"Andrea\" :\nTitolo \"Primo messaggio\"\nCorpo \"Messaggio di gruppo con priorità 5\"\nCC\nImg \"link ad un immagine\"\nFormattazione \"All caps\"\n\nInvia\n\nMessaggio a \"Edoardo\" :\nTitolo \"Messaggio lowercase\"\nCorpo \"Messaggio lowercase con priorità 5\"\nFormattazione \"lowercase\"\n\nPriorità 3\n\nMessaggio a \"Edoardo\" :\nTitolo \"Messaggio lowercase 2\"\nCorpo \"Messaggio lowercase con priorità 3\"\nFormattazione \"lowercase\"\n\nInvia\n\nMessaggio a \"Andrea\" :\nTitolo \"Messaggio singolo\"\nCorpo \"messaggio singolo. con priorità 3\"\nCC\nFormattazione \"Capitalization\"</string>
+    <string name="receivers">To: %s</string>
+    <string name="date">%1$td/%1$tm/%1$tY %1$tH:%1$tM</string>
+    <string name="date_hour">%1$tH:%1$tM</string>
+    <string name="date_day">%1$te %1$tb</string>
+    <string name="date_year">%1$tb %1$tY</string>
+
+    <string name="menu_logout">Log out</string>
+    <string name="menu_theme">Dark Theme</string>
+
+    <string name="sort">Sort</string>
+    <string name="sort_newest">Newest</string>
+    <string name="sort_oldest">Oldest</string>
+    <string name="sort_priority_high">Highest priority</string>
+    <string name="sort_priority_low">Lowest priority</string>
+
+    <string name="login_email">E-mail</string>
+    <string name="login_password">Password</string>
+    <string name="login_sign_in">Sign in</string>
+    <string name="login_register">Need an account? <a href="">Register here</a></string>
+    <string name="login_loading">Processing request. Please wait…</string>
+    <string name="login_account_not_exists">The email you\'ve entered doesn\'t match any account</string>
+    <string name="login_wrong_password">The password you\'ve entered is incorrect</string>
+    <string name="login_no_email">Please enter your email to continue</string>
+    <string name="login_no_password">Please enter your password to continue</string>
+    <string name="login_too_many_requests">We have blocked all requests from this device due to unusual activity. Try again later.</string>
+    <string name="login_unknown_error">An error has occurred. Please try again later</string>
+
+    <string name="register_create">Create account</string>
+    <string name="register_name">Name</string>
+    <string name="register_password2">Retype password</string>
+    <string name="register_login">Already have an account? <a href="">Login</a></string>
+    <string name="register_no_name">Please insert a name to continue</string>
+    <string name="register_no_email">Please insert a valid email address to continue</string>
+    <string name="register_no_password">Your password must be at least 8 characters long, with at least one number and one letter</string>
+    <string name="register_password_not_match">The passwords you\'ve entered don\'t match</string>
+    <string name="register_email_already_exists">This email is already associated to an existing account</string>
+    <string name="register_loading">Processing request. Please wait…</string>
+    <string name="register_unknown_error">An error has occurred. Please try again later</string>
 </resources>

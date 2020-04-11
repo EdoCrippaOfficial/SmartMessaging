@@ -1,0 +1,56 @@
+<resources>
+
+    <style name="LightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">@color/colorPrimaryLight</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackgroundLight</item>
+        <item name="divider">@color/dividerLight</item>
+        <item name="thumbColor">@color/colorPrimaryLight</item>
+        <item name="titleTextColor">@color/titleTextLight</item>
+        <item name="itemIconTint">@color/textPrimaryLight</item>
+        <item name="android:textColorPrimary">@color/textPrimaryLight</item>
+        <item name="android:textColorSecondary">@color/textSecondaryLight</item>
+        <item name="android:textColorTertiary">@color/textTertiaryLight</item>
+        <item name="android:listDivider">@drawable/divider</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownStyleLight</item>
+        <item name="android:dialogTheme">@style/DialogLight</item>
+        <item name="android:buttonStyle">@style/ButtonsLight</item>
+    </style>
+
+    <style name="ButtonsLight" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/titleTextLight</item>
+        <item name="android:textAppearance">?android:textAppearanceButton</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:background">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="DialogLight" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:progressBarStyle">@style/ProgressBar</item>
+        <item name="android:background">@color/colorBackgroundLight</item>
+        <item name="android:textColorPrimary">@color/textPrimaryLight</item>
+        <item name="android:textColorSecondary">@color/textSecondaryLight</item>
+        <item name="android:textColorTertiary">@color/textTertiaryLight</item>
+    </style>
+
+    <style name="ProgressBar" parent="android:Widget.Material.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">?colorPrimary</item>
+    </style>
+
+    <style name="DropDownStyleLight">
+        <item name="android:background">@color/colorPrimaryLight</item>
+        <item name="android:divider">@color/colorBackgroundLight</item>
+        <item name="android:dividerHeight">0.5dp</item>
+    </style>
+
+    <style name="ShadowText">
+        <item name="android:shadowColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+</resources>

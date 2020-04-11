@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group
+        android:id="@+id/group_pages"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_new"
+            android:icon="@drawable/ic_new_message"
+            android:title="@string/menu_new"
+            android:checkable="true"/>
+
+        <item
+            android:id="@+id/menu_all"
+            android:icon="@drawable/ic_all_messages"
+            android:title="@string/menu_all"
+            android:checkable="true"/>
+
+        <item
+            android:id="@+id/menu_my"
+            android:icon="@drawable/ic_my_messages"
+            android:title="@string/menu_my"
+            android:checkable="true"/>
+
+        <item
+            android:id="@+id/menu_starred"
+            android:icon="@drawable/ic_star"
+            android:title="@string/menu_starred"
+            android:checkable="true"/>
+
+        <item
+            android:id="@+id/menu_completed"
+            android:icon="@drawable/ic_completed_messages"
+            android:title="@string/menu_completed"
+            android:checkable="true"/>
+
+    </group>
+
+    <group
+        android:id="@+id/group_account"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/menu_logout"
+            android:checkable="true"/>
+
+    </group>
+
+</menu>

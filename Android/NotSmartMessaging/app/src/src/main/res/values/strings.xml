@@ -1,0 +1,81 @@
+<resources>
+
+    <string name="app_name">City Care</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="login_email">E-mail</string>
+    <string name="login_password">Password</string>
+    <string name="login_sign_in">Sign in</string>
+    <string name="login_register">Need an account? <a href="">Register here</a></string>
+    <string name="login_loading">Processing request. Please wait…</string>
+    <string name="login_account_not_exists">The email you\'ve entered doesn\'t match any account</string>
+    <string name="login_wrong_password">The password you\'ve entered is incorrect</string>
+    <string name="login_no_email">Please enter your email to continue</string>
+    <string name="login_no_password">Please enter your password to continue</string>
+    <string name="login_unknown_error">An error has occurred. Please try again later</string>
+
+    <string name="register_create">Create account</string>
+    <string name="register_name">Name</string>
+    <string name="register_ssn">Social security number</string>
+    <string name="register_login">Already have an account? <a href="">Login</a></string>
+    <string name="register_no_name">Please insert a name to continue</string>
+    <string name="register_no_ssn">Please insert a valid SSN to continue</string>
+    <string name="register_no_email">Please insert a valid email address to continue</string>
+    <string name="register_no_password">Your password must be at least 8 characters long, with at least one number and one letter</string>
+    <string name="register_email_already_exists">This email is already associated to an existing account</string>
+    <string name="register_loading">Processing request. Please wait…</string>
+    <string name="register_unknown_error">An error has occurred. Please try again later</string>
+
+    <string name="menu_new">New message</string>
+    <string name="menu_all">All messages</string>
+    <string name="menu_my">My messages</string>
+    <string name="menu_starred">Starred messages</string>
+    <string name="menu_completed">Completed messages</string>
+    <string name="menu_logout">Log out</string>
+
+    <string name="new_message_title">Title</string>
+    <string name="new_message_description">Description</string>
+    <string name="ner_message_position">Position (optional)</string>
+    <string name="new_message_send">Send</string>
+    <string name="new_message_uploading">Sending in progress…</string>
+    <string name="new_message_select_picture">Select a picture\nfrom gallery</string>
+    <string name="new_message_no_picture">Please insert a picture to continue</string>
+    <string name="new_message_no_title">Please insert a title to continue</string>
+    <string name="new_message_no_description">Please insert a description to continue</string>
+    <string name="new_message_error_db">Failed to connect to server. Please check your internet connection and try again</string>
+    <string name="new_message_error_image">Error while processing the image. Please upload it again</string>
+    <string name="new_message_ok">message sent correctly! Update the \"All messages\" section to view it</string>
+    <string name="new_message_take_picture">Take a picture\nwith camera</string>
+    <string name="new_message_camera_error">Unknown error: unable to open camera app</string>
+    <string name="new_message_pick_error">Error: unable to load the chosen file</string>
+    <string name="new_message_camera_missing">No camera app found on your device. You can download it from Play Store to use this feature</string>
+    <string name="new_message_permissions">Your file manager requires storage access to load the image. Please try again and tap on "allow" when it\'s asked or download another file manager from Play Store</string>
+    <string name="new_message_pick_again">Error loading image. Please choose it again</string>
+
+    <string name="message_date">By: %s - %s</string>
+    <string name="message_delete">Delete</string>
+    <string name="message_deleting">Deleting in progress…</string>
+    <string name="message_deleting_fail">Failed to delete message. Please check your network connection and try again</string>
+    <string name="message_reply">Reply:</string>
+    <string name="message_accepted">ACCEPTED</string>
+    <string name="message_refused">REFUSED</string>
+    <string name="message_completed">COMPLETED</string>
+    <string name="message_waiting">WAITING</string>
+
+    <string name="sort_message_title">Order messages by:</string>
+    <string name="sort_message_newest">Date created (newest)</string>
+    <string name="sort_message_oldest">Date created (oldest)</string>
+    <string name="sort_message_most">Most popular</string>
+    <string name="sort_message_least">Least popular</string>
+
+    <string name="confirm_title">Deleting message</string>
+    <string name="confirm_body">Are you sure you want to delete this message?</string>
+
+    <string name="content_desc_sort">Sort by…</string>
+
+    <string name="position">Select this position</string>
+    <string name="title_activity_maps">Select position on map</string>
+
+</resources>

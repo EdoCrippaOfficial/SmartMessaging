@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/color_primary"/>
+
+    <RadioGroup
+        android:id="@+id/radio_sort"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp">
+
+        <RadioButton
+            android:id="@+id/bn_newest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sort_message_newest"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <RadioButton
+            android:id="@+id/bn_oldest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sort_message_oldest"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <RadioButton
+            android:id="@+id/bn_more_stars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sort_message_most"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <RadioButton
+            android:id="@+id/bn_less_stars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sort_message_least"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+    </RadioGroup>
+
+</LinearLayout>

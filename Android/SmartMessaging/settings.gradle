@@ -1,1 +1,2 @@
-include ':app', ':parser'
+rootProject.name='SmartMessaging'
+include ':app'

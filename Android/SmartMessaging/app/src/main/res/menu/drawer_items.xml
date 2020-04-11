@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group
+        android:id="@+id/options">
+
+        <item
+            android:id="@+id/bn_dark"
+            android:icon="@drawable/ic_dark"
+            android:title="@string/menu_theme"
+            android:checkable="true" />
+
+        <item
+            android:id="@+id/bn_light"
+            android:visible="false"
+            android:checkable="true" />
+
+    </group>
+
+    <item
+        android:id="@+id/bn_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/menu_logout"
+        android:checkable="false" />
+
+
+</menu>

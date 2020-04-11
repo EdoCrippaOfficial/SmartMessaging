@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="message"
+            type="inc.elevati.smartmessaging.model.Message" />
+
+        <variable
+            name="listener"
+            type="inc.elevati.smartmessaging.view.main.OnMessageClickListener" />
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:gravity="center"
+        android:background="?message_background"
+        android:padding="5dp"
+        android:baselineAligned="false"
+        android:onClick="@{() ->  listener.onClick(message)}">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:text="@{message.isToday ? @string/date_hour(message.timestamp) : message.isThisYear ? @string/date_day(message.timestamp) : @string/date_year(message.timestamp)}"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{message.title}" />
+
+            <TextView
+                android:id="@+id/tv_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_marginTop="2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{message.body}" />
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="50dp">
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:image="@{message.imageUrl}"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</layout>
