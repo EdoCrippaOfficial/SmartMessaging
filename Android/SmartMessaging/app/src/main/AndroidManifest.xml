@@ -18,6 +18,23 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.main.MainActivity" />
+
+        <service
+            android:name=".service.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="SmartMessagingNotify" />
+
     </application>
+
+
+
+
 
 </manifest>
