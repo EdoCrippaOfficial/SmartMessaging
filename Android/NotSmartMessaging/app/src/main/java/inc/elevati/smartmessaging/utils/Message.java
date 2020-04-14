@@ -2,33 +2,27 @@ package inc.elevati.smartmessaging.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.format.DateUtils;
-import android.text.format.Time;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Message implements Parcelable {
 
-    private String title, body, imageUrl;
+    private String id, title, body, imageUrl;
     private List<String> receivers;
     private int priority;
     private long timestamp;
-    private boolean isToday, isThisYear;
+    private boolean isCC;
 
-    public Message(String title, String body, String imageUrl, int priority, List<String> receivers, long timestamp) {
+    public Message(String id, String title, String body, String imageUrl, int priority, List<String> receivers, long timestamp, boolean isCC) {
+        this.id = id;
         this.title = title;
         this.body = body;
         this.imageUrl = imageUrl;
         this.priority = priority;
         this.receivers = receivers;
         this.timestamp = timestamp;
-        this.isToday = DateUtils.isToday(timestamp);
-        Time time = new Time();
-        time.set(timestamp);
-        int thenYear = time.year;
-        time.set(System.currentTimeMillis());
-        this.isThisYear = (thenYear == time.year);
+        this.isCC = isCC;
     }
 
     /**
@@ -36,6 +30,7 @@ public class Message implements Parcelable {
      * @param in the Parcel object that represents this report
      */
     private Message(Parcel in) {
+        this.id = in.readString();
         this.title = in.readString();
         this.body = in.readString();
         this.imageUrl = in.readString();
@@ -46,12 +41,11 @@ public class Message implements Parcelable {
             receivers.add(in.readString());
         }
         this.timestamp = in.readLong();
-        this.isToday = DateUtils.isToday(timestamp);
-        Time time = new Time();
-        time.set(timestamp);
-        int thenYear = time.year;
-        time.set(System.currentTimeMillis());
-        this.isThisYear = (thenYear == time.year);
+        this.isCC = in.readInt() == 1;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -78,12 +72,8 @@ public class Message implements Parcelable {
         return timestamp;
     }
 
-    public boolean isToday() {
-        return isToday;
-    }
-
-    public boolean isThisYear() {
-        return isThisYear;
+    public boolean isCC() {
+        return isCC;
     }
 
     @Override
@@ -98,6 +88,7 @@ public class Message implements Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(body);
         dest.writeString(imageUrl);
@@ -106,6 +97,7 @@ public class Message implements Parcelable {
         for (String r: receivers)
             dest.writeString(r);
         dest.writeLong(timestamp);
+        dest.writeInt(isCC ? 1 : 0);
     }
 
     /** Required by Parcelable interface */

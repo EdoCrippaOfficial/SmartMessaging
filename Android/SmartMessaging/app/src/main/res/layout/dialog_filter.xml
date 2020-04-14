@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_filter"
+        android:textAppearance="?android:textAppearanceLarge"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?colorPrimary"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/filter_priority"
+        android:textAppearance="?android:textAppearanceMedium"/>
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider_priority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="1"
+        android:valueTo="5"
+        android:stepSize="1" />
+
+    <CheckBox
+        android:id="@+id/check_single"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_single"
+        android:buttonTint="?colorPrimary"
+        android:textAppearance="?android:textAppearanceMedium"/>
+
+    <CheckBox
+        android:id="@+id/check_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_group"
+        android:buttonTint="?colorPrimary"
+        android:textAppearance="?android:textAppearanceMedium"/>
+
+</LinearLayout>

@@ -1,9 +1,14 @@
 package inc.elevati.smartmessaging.main;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import inc.elevati.smartmessaging.R;
-import inc.elevati.smartmessaging.firebase.DummyMessagesFetcher;
+import inc.elevati.smartmessaging.firebase.FirebaseFirestoreHelper;
+import inc.elevati.smartmessaging.utils.FilterOptions;
 import inc.elevati.smartmessaging.utils.Message;
 import inc.elevati.smartmessaging.utils.MvpContracts;
 import inc.elevati.smartmessaging.firebase.FirebaseAuthHelper;
@@ -26,7 +31,9 @@ public class MainPresenter implements MainContracts.MainPresenter {
      * is called while View is detached */
     private boolean update;
 
-    private List<Message> results;
+    private QuerySnapshot results;
+
+    private FilterOptions filterOptions;
 
     /** {@inheritDoc} */
     @Override
@@ -59,9 +66,29 @@ public class MainPresenter implements MainContracts.MainPresenter {
     /** {@inheritDoc} */
     @Override
     public void onMenuItemClicked(int itemId) {
-        if (itemId == R.id.bn_logout) {
-            FirebaseAuthHelper.signOut();
-            view.startLoginActivity();
+        switch (itemId) {
+            case android.R.id.home:
+                view.openDrawer();
+                break;
+            case R.id.bn_logout:
+                FirebaseAuthHelper.signOut();
+                view.startLoginActivity();
+                break;
+            case R.id.bn_filter:
+                view.showFilterDialog();
+                break;
+            case R.id.bn_newest:
+                view.sortMessages(MainContracts.SORT_DATE_NEWEST);
+                break;
+            case R.id.bn_oldest:
+                view.sortMessages(MainContracts.SORT_DATE_OLDEST);
+                break;
+            case R.id.bn_priority_high:
+                view.sortMessages(MainContracts.SORT_PRIORITY_HIGH);
+                break;
+            case R.id.bn_priority_low:
+                view.sortMessages(MainContracts.SORT_PRIORITY_LOW);
+                break;
         }
     }
 
@@ -91,12 +118,42 @@ public class MainPresenter implements MainContracts.MainPresenter {
 
     @Override
     public void loadMessages() {
-        new DummyMessagesFetcher(this).fetchMessages();
+        new FirebaseFirestoreHelper(this).fetchMessages(getCurrentUserName());
     }
 
     @Override
-    public void onLoadMessagesTaskComplete(List<Message> messages) {
-        view.updateMessages(messages);
+    public void onLoadMessagesTaskComplete(QuerySnapshot data) {
+        // If view is detached, set the pendingTask flag
+        if (view == null) {
+            pendingTask = true;
+            this.results = data;
+            return;
+        }
+
+        List<Message> messages = new ArrayList<>();
+        for (QueryDocumentSnapshot snap: data) {
+            String id = snap.getId();
+            String title = snap.getString("title");
+            String body = snap.getString("body");
+            String image = snap.getString("image");
+            int priority = (int) (long) snap.getLong("priority");
+            List<String> receivers = (List<String>) snap.get("receivers");
+            long timestamp = snap.getLong("timestamp");
+            boolean CC = snap.getBoolean("cc");
+            messages.add(new Message(id, title, body, image, priority, receivers, timestamp, CC));
+        }
+
+        List<Message> filtered = new ArrayList<>();
+        for (Message message: messages) {
+            int priority = message.getPriority();
+            if (priority >= filterOptions.getMinPriority() && priority <= filterOptions.getMaxPriority()) {
+                boolean CC = message.isCC();
+                if (filterOptions.isShowGroupMessages() || filterOptions.isShowSingleMessages())
+                    if (CC == filterOptions.isShowGroupMessages() || !CC == filterOptions.isShowSingleMessages())
+                        filtered.add(message);
+            }
+        }
+        view.updateMessages(filtered);
     }
 
     @Override
@@ -117,7 +174,7 @@ public class MainPresenter implements MainContracts.MainPresenter {
 
     @Override
     public void onDeleteMessageButtonClicked(Message message) {
-        new DummyMessagesFetcher(this).deleteMessage(message);
+        new FirebaseFirestoreHelper(this).deleteMessage(message, getCurrentUserName());
     }
 
     @Override
@@ -130,5 +187,15 @@ public class MainPresenter implements MainContracts.MainPresenter {
         } else {
             messageDialogView.notifyDeleteMessageError();
         }
+    }
+
+    @Override
+    public void setFilterOptions(int minPriority, int maxPriority, boolean showSingleMessages, boolean showGroupMessages) {
+        filterOptions = new FilterOptions(minPriority, maxPriority, showSingleMessages, showGroupMessages);
+    }
+
+    @Override
+    public FilterOptions getFilterOptions() {
+        return filterOptions;
     }
 }

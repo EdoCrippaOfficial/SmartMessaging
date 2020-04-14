@@ -122,6 +122,7 @@ public class LoginFragment extends Fragment {
     private void showProgressDialog() {
         progressDialog = ProgressDialog.newInstance(R.string.login_loading);
         progressDialog.show(getParentFragmentManager(), "progress");
+        getParentFragmentManager().executePendingTransactions();
     }
 
     private void dismissProgressDialog() {

@@ -1,14 +1,17 @@
 package inc.elevati.smartmessaging.view.main;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.slider.Slider;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +27,7 @@ import inc.elevati.smartmessaging.R;
 import inc.elevati.smartmessaging.model.Message;
 import inc.elevati.smartmessaging.view.login.AuthActivity;
 import inc.elevati.smartmessaging.viewmodel.AuthViewModel;
-import inc.elevati.smartmessaging.viewmodel.MessageDetailViewModel;
+import inc.elevati.smartmessaging.viewmodel.MessageHandlerViewModel;
 import inc.elevati.smartmessaging.viewmodel.MessagesListViewModel;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private SwipeRefreshLayout messagesRefresher;
     private MessageItemAdapter messageItemAdapter;
     private DrawerLayout drawerLayout;
+    private String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +49,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // Oggetto che permette di recuperare i ViewModel
         viewModelProvider = new ViewModelProvider(this);
         initToolbar();
-        initDrawer(darkTheme);
+        View headerView = initDrawer(darkTheme);
         initMessagesAdapter();
         messagesRefresher = findViewById(R.id.messages_refresher);
         messagesRefresher.setOnRefreshListener(this);
-        showMessages();
+        showMessages(headerView);
     }
 
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
     }
 
-    private void initDrawer(boolean darkTheme) {
+    private View initDrawer(boolean darkTheme) {
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView drawerView = findViewById(R.id.drawer_view);
 
@@ -88,16 +93,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
             return false;
         });
-
-        // Recupero dei dati da visualizzare sulla header della barra laterale
-        AuthViewModel authViewModel = viewModelProvider.get(AuthViewModel.class);
-        authViewModel.getCurrentUser().observe(this, user -> {
-            View headerView = drawerView.getHeaderView(0);
-            TextView tvUser = headerView.findViewById(R.id.tv_username);
-            TextView tvEmail = headerView.findViewById(R.id.tv_email);
-            tvUser.setText(user.getName());
-            tvEmail.setText(user.getEmail());
-        });
+        return drawerView.getHeaderView(0);
     }
 
     private void initMessagesAdapter() {
@@ -113,23 +109,35 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void showMessageDialog(Message message) {
-        MessageDetailViewModel messageDetailViewModel = viewModelProvider.get(MessageDetailViewModel.class);
+        MessageHandlerViewModel messageHandlerViewModel = viewModelProvider.get(MessageHandlerViewModel.class);
 
         // Salvataggio dell'oggetto message in un apposito ViewModel, ci penserà il dialog creato a recuperarlo
-        messageDetailViewModel.setMessage(message);
+        messageHandlerViewModel.setMessage(message);
+        messageHandlerViewModel.setUserID(currentUser);
         MessageDialog messageDialog = MessageDialog.newInstance();
         messageDialog.show(getSupportFragmentManager(), "");
     }
 
-    private void showMessages() {
+    private void showMessages(View headerView) {
+        messagesRefresher.post(() -> messagesRefresher.setRefreshing(true));
         AuthViewModel authViewModel = viewModelProvider.get(AuthViewModel.class);
 
-        // Osservazione del LiveData richiesto che conterrà i messaggi quando sono pronti per essere visualizzati
+        // Recupero dei dati dell'utente
+
         authViewModel.getCurrentUser().observe(this, user -> {
+            TextView tvUser = headerView.findViewById(R.id.tv_username);
+            TextView tvEmail = headerView.findViewById(R.id.tv_email);
+            tvUser.setText(user.getName());
+            tvEmail.setText(user.getEmail());
+            currentUser = user.getName();
+
+            // Osservazione del LiveData richiesto che conterrà i messaggi quando sono pronti per essere visualizzati
             MessagesListViewModel messagesListViewModel = viewModelProvider.get(MessagesListViewModel.class);
-            messagesListViewModel.getFilteredByReceiverList(user.getName()).observe(this, messages -> {
-                messagesRefresher.setRefreshing(false);
+            messagesListViewModel.setUserID(currentUser);
+            messagesListViewModel.setFilterOptions(1, 5, true, true);
+            messagesListViewModel.getFilteredMessages().observe(this, messages -> {
                 messageItemAdapter.updateMessages(messages);
+                messagesRefresher.post(() -> messagesRefresher.setRefreshing(false));
             });
         });
     }
@@ -140,6 +148,34 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void createFilterDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.dialog_filter);
+        MessagesListViewModel messagesListViewModel = viewModelProvider.get(MessagesListViewModel.class);
+
+        // Ottenimento opzioni salvate
+        messagesListViewModel.getFilterOptions().observe(this, filterOptions -> {
+            Slider slider_priority = dialog.findViewById(R.id.slider_priority);
+            slider_priority.setValues((float) filterOptions.getMinPriority(), (float) filterOptions.getMaxPriority());
+            CheckBox check_single = dialog.findViewById(R.id.check_single);
+            CheckBox check_group = dialog.findViewById(R.id.check_group);
+            check_single.setChecked(filterOptions.isShowSingleMessages());
+            check_group.setChecked(filterOptions.isShowGroupMessages());
+            dialog.setOnCancelListener(dialog1 -> {
+                float minPriority = slider_priority.getValues().get(0);
+                float maxPriority = slider_priority.getValues().get(1);
+                boolean showSingleMessages = check_single.isChecked();
+                boolean showGroupMessages = check_group.isChecked();
+
+                // Richiesta con i dati aggiornati
+                messagesListViewModel.setFilterOptions((int) minPriority, (int) maxPriority, showSingleMessages, showGroupMessages);
+                messagesListViewModel.getFilteredMessages();
+            });
+        });
+        dialog.show();
     }
 
     @Override
@@ -154,6 +190,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         switch (id) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.bn_filter:
+                createFilterDialog();
                 break;
 
             // Cambio dell'ordine di visualizzazione

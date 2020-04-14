@@ -88,6 +88,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:backgroundTint="?colorPrimary"
+        android:textAppearance="?android:textAppearanceButton"
+        android:textColor="?android:textColorPrimary"
         android:text="@string/register_create" />
 
     <TextView

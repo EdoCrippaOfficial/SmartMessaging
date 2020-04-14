@@ -15,19 +15,21 @@ import inc.elevati.smartmessaging.R;
 
 public class Message {
 
-    private String title, body, imageUrl;
-    private List<User> receivers;
+    private String id, title, body, imageUrl;
+    private List<String> receivers;
     private int priority;
     private long timestamp;
-    private boolean isToday, isThisYear;
+    private boolean isToday, isThisYear, isCC;
 
-    public Message(String title, String body, String imageUrl, int priority, List<User> receivers, long timestamp) {
+    public Message(String id, String title, String body, String imageUrl, int priority, List<String> receivers, long timestamp, boolean isCC) {
+        this.id = id;
         this.title = title;
         this.body = body;
         this.imageUrl = imageUrl;
         this.priority = priority;
         this.receivers = receivers;
         this.timestamp = timestamp;
+        this.isCC = isCC;
 
         // Controllo se la data è di oggi o in quest'anno per cambiare la visualizzazione
         this.isToday = DateUtils.isToday(timestamp);
@@ -36,6 +38,10 @@ public class Message {
         int thenYear = time.year;
         time.set(System.currentTimeMillis());
         this.isThisYear = (thenYear == time.year);
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -50,7 +56,7 @@ public class Message {
         return imageUrl;
     }
 
-    public List<User> getReceivers() {
+    public List<String> getReceivers() {
         return receivers;
     }
 
@@ -60,6 +66,10 @@ public class Message {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public boolean isCC() {
+        return isCC;
     }
 
     public boolean isToday() {
