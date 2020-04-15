@@ -1,8 +1,11 @@
 package inc.elevati.smartmessaging.main;
 
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.List;
 
 import inc.elevati.smartmessaging.login.LoginActivity;
+import inc.elevati.smartmessaging.utils.FilterOptions;
 import inc.elevati.smartmessaging.utils.Message;
 import inc.elevati.smartmessaging.utils.MvpContracts;
 
@@ -45,6 +48,12 @@ public interface MainContracts {
          */
         void showMessageDialog(Message message);
 
+        void sortMessages(int sortCriteria);
+
+        void openDrawer();
+
+        void showFilterDialog();
+
         MainPresenter getPresenter();
     }
 
@@ -85,9 +94,9 @@ public interface MainContracts {
 
         /**
          * Notifies this presenter that a message retrieving task has completed
-         * @param messages the query result
+         * @param data the query result
          */
-        void onLoadMessagesTaskComplete(List<Message> messages);
+        void onLoadMessagesTaskComplete(QuerySnapshot data);
 
         /**
          * Notifies this presenter that a message list update task has completed
@@ -111,6 +120,10 @@ public interface MainContracts {
          * @param result the task result
          */
         void onDeleteMessageTaskComplete(DeleteMessageTaskResult result);
+
+        void setFilterOptions(int minPriority, int maxPriority, boolean showSingleMessages, boolean showGroupMessages);
+
+        FilterOptions getFilterOptions();
     }
 
     interface MessageDialogView extends MvpContracts.MvpView {

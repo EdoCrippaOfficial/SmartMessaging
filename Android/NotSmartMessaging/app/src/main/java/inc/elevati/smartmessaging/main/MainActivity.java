@@ -1,13 +1,16 @@
 package inc.elevati.smartmessaging.main;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.slider.Slider;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import inc.elevati.smartmessaging.R;
 import inc.elevati.smartmessaging.login.LoginActivity;
+import inc.elevati.smartmessaging.utils.FilterOptions;
 import inc.elevati.smartmessaging.utils.Message;
 
 /** The main activity that contains the ViewPager with the fragments */
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements MainContracts.Mai
         presenter = (MainPresenter) getLastCustomNonConfigurationInstance();
         if (presenter == null) presenter = new MainPresenter();
         presenter.attachView(this);
+        presenter.setFilterOptions(1, 5, true, true);
 
         // Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -104,6 +109,29 @@ public class MainActivity extends AppCompatActivity implements MainContracts.Mai
         container.setAdapter(messageAdapter);
     }
 
+    @Override
+    public void showFilterDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.dialog_filter);
+        FilterOptions filterOptions = presenter.getFilterOptions();
+        Slider slider_priority = dialog.findViewById(R.id.slider_priority);
+        slider_priority.setValues((float) filterOptions.getMinPriority(), (float) filterOptions.getMaxPriority());
+        CheckBox check_single = dialog.findViewById(R.id.check_single);
+        CheckBox check_group = dialog.findViewById(R.id.check_group);
+        check_single.setChecked(filterOptions.isShowSingleMessages());
+        check_group.setChecked(filterOptions.isShowGroupMessages());
+        dialog.setOnCancelListener(dialog1 -> {
+            float minPriority = slider_priority.getValues().get(0);
+            float maxPriority = slider_priority.getValues().get(1);
+            boolean showSingleMessages = check_single.isChecked();
+            boolean showGroupMessages = check_group.isChecked();
+            presenter.setFilterOptions((int) minPriority, (int) maxPriority, showSingleMessages, showGroupMessages);
+            presenter.loadMessages();
+        });
+        dialog.show();
+    }
+
     /**
      * Called at orientation changes or activity re-creations, it retains the presenter
      * @return the presenter associated to the view
@@ -134,27 +162,18 @@ public class MainActivity extends AppCompatActivity implements MainContracts.Mai
     }
 
     @Override
+    public void sortMessages(int sortCriteria) {
+        messageAdapter.sortMessages(sortCriteria);
+    }
+
+    @Override
+    public void openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                break;
-            case R.id.bn_newest:
-                messageAdapter.sortMessages(MainContracts.SORT_DATE_NEWEST);
-                break;
-            case R.id.bn_oldest:
-                messageAdapter.sortMessages(MainContracts.SORT_DATE_OLDEST);
-                break;
-            case R.id.bn_priority_high:
-                messageAdapter.sortMessages(MainContracts.SORT_PRIORITY_HIGH);
-                break;
-            case R.id.bn_priority_low:
-                messageAdapter.sortMessages(MainContracts.SORT_PRIORITY_LOW);
-                break;
-            case R.id.bn_logout:
-                presenter.onMenuItemClicked(R.id.bn_logout);
-                break;
-        }
+        presenter.onMenuItemClicked(item.getItemId());
         return true;
     }
 

@@ -133,6 +133,7 @@ public class RegisterFragment extends Fragment {
     private void showProgressDialog() {
         progressDialog = ProgressDialog.newInstance(R.string.register_loading);
         progressDialog.show(getParentFragmentManager(), "progress");
+        getParentFragmentManager().executePendingTransactions();
     }
 
     private void dismissProgressDialog() {

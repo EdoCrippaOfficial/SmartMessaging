@@ -32,7 +32,7 @@ public class MessageItemAdapter extends RecyclerView.Adapter<MessageItemAdapter.
         this.messages = new ArrayList<>();
 
         // Ordinamento standard dal più recente
-        this.sorter = (o1, o2) -> Long.compare(o1.getTimestamp(), o2.getTimestamp());
+        this.sorter = (o1, o2) -> Long.compare(o2.getTimestamp(), o1.getTimestamp());
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {

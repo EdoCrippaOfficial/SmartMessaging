@@ -3,36 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/sort"
-        android:icon="@drawable/ic_sort"
-        app:showAsAction="ifRoom" >
+        android:title="@string/app_name"
+        android:icon="@drawable/ic_collapse"
+        app:showAsAction="always">
 
         <menu>
 
             <item
-                android:id="@+id/bn_newest"
-                android:title="@string/sort_newest" />
+                android:id="@+id/bn_filter"
+                android:title="@string/filter_filter"
+                android:icon="@drawable/ic_filter" />
 
             <item
-                android:id="@+id/bn_oldest"
-                android:title="@string/sort_oldest" />
+                android:title="@string/sort"
+                android:icon="@drawable/ic_sort" >
+
+                <menu>
+
+                    <item
+                        android:id="@+id/bn_newest"
+                        android:title="@string/sort_newest" />
+
+                    <item
+                        android:id="@+id/bn_oldest"
+                        android:title="@string/sort_oldest" />
+
+                    <item
+                        android:id="@+id/bn_priority_high"
+                        android:title="@string/sort_priority_high" />
+
+                    <item
+                        android:id="@+id/bn_priority_low"
+                        android:title="@string/sort_priority_low" />
+
+                </menu>
+
+            </item>
 
             <item
-                android:id="@+id/bn_priority_high"
-                android:title="@string/sort_priority_high" />
-
-            <item
-                android:id="@+id/bn_priority_low"
-                android:title="@string/sort_priority_low" />
+                android:id="@+id/bn_logout"
+                android:title="@string/menu_logout"
+                android:icon="@drawable/ic_logout" />
 
         </menu>
 
     </item>
-
-    <item
-        android:id="@+id/bn_logout"
-        android:title="@string/menu_logout"
-        android:icon="@drawable/ic_logout"
-        app:showAsAction="ifRoom" />
 
 </menu>

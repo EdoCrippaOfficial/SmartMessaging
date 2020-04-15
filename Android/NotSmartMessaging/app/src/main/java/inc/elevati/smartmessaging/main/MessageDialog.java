@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +68,17 @@ public class MessageDialog extends DialogFragment implements MainContracts.Messa
         TextView tv_date = v.findViewById(R.id.tv_date);
         TextView tv_receivers = v.findViewById(R.id.tv_receivers);
         ImageView bn_delete = v.findViewById(R.id.bn_delete);
-        bn_delete.setOnClickListener(v1 -> presenter.onDeleteMessageButtonClicked(message));
+        bn_delete.setOnClickListener(v1 -> {
+            Dialog confirmDialog = new Dialog(requireContext());
+            confirmDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            confirmDialog.setContentView(R.layout.dialog_confirm);
+            confirmDialog.findViewById(R.id.bn_delete_no).setOnClickListener(v3 -> confirmDialog.dismiss());
+            confirmDialog.findViewById(R.id.bn_delete_yes).setOnClickListener(v3 -> {
+                confirmDialog.dismiss();
+                presenter.onDeleteMessageButtonClicked(message);
+            });
+            confirmDialog.show();
+        });
         ImageView iv_image = v.findViewById(R.id.iv_image);
         tv_title.setText(message.getTitle());
         tv_body.setText(message.getBody());
@@ -107,7 +118,7 @@ public class MessageDialog extends DialogFragment implements MainContracts.Messa
     /** {@inheritDoc} */
     @Override
     public void notifyDeleteMessageError() {
-        Toast.makeText(getContext(), R.string.message_deleting_fail, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.delete_fail, Toast.LENGTH_SHORT).show();
     }
 
     @Override
