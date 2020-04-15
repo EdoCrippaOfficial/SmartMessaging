@@ -10,9 +10,15 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,7 +29,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import inc.elevati.smartmessaging.R;
+import inc.elevati.smartmessaging.model.FirebaseAuthHelper;
 import inc.elevati.smartmessaging.model.Message;
 import inc.elevati.smartmessaging.view.login.AuthActivity;
 import inc.elevati.smartmessaging.viewmodel.AuthViewModel;
@@ -45,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (darkTheme)
             setTheme(R.style.DarkTheme);
         setContentView(R.layout.activity_main);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.getBoolean("login"))
+            checkToken();
 
         // Oggetto che permette di recuperare i ViewModel
         viewModelProvider = new ViewModelProvider(this);
@@ -245,5 +260,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         else
             setTheme(R.style.LightTheme);
         recreate();
+    }
+
+    private void checkToken(){
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) return;
+                    String token = task.getResult().getToken();
+                    sendTokenToServer(token);
+                });
+    }
+
+    private void sendTokenToServer(String token){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", token);
+        String username = FirebaseAuthHelper.getInstance().getCurrentUser().getValue().getName();
+        db.collection("users").document(username).set(data);
     }
 }
