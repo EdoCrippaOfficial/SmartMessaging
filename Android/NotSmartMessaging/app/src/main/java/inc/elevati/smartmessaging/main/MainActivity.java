@@ -59,6 +59,12 @@ public class MainActivity extends AppCompatActivity implements MainContracts.Mai
         presenter.attachView(this);
         presenter.setFilterOptions(1, 5, true, true);
 
+        // Controllo se è il caso di settare il token nel DB
+        Bundle extras = getIntent().getExtras();
+        boolean checkToken = extras != null && extras.getBoolean("login");
+        if (checkToken)
+            presenter.checkToken();
+
         // Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

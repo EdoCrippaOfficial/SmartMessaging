@@ -1,4 +1,4 @@
-package inc.elevati.smartmessaging.model;
+package inc.elevati.smartmessaging.model.firebase;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -11,6 +11,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import inc.elevati.smartmessaging.model.User;
 
 public class FirebaseAuthHelper {
 
@@ -49,7 +50,6 @@ public class FirebaseAuthHelper {
 
     public LiveData<User> getCurrentUser() {
         if (currentUser == null) {
-
             // Inizializza l'oggetto LiveData che sarà osservato dalla View interessata
             setCurrentUser();
         }
@@ -127,7 +127,7 @@ public class FirebaseAuthHelper {
     // Set dell'utente corrente in un oggetto LiveData
     private void setCurrentUser() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getUid());
+        User user = new User(firebaseUser.getDisplayName(), firebaseUser.getEmail());
         currentUser = new MutableLiveData<>();
         currentUser.setValue(user);
     }

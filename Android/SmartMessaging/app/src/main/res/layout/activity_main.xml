@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:itemBackground="@drawable/drawer_item_background"
+        app:itemBackground="@drawable/bg_drawer_item"
         app:itemTextColor="?itemIconTint"
         app:itemIconTint="?itemIconTint"
         app:menu="@menu/drawer_items"

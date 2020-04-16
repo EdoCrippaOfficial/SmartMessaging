@@ -8,6 +8,7 @@ import java.util.List;
 
 import inc.elevati.smartmessaging.R;
 import inc.elevati.smartmessaging.firebase.FirebaseFirestoreHelper;
+import inc.elevati.smartmessaging.firebase.FirebaseMessagingHelper;
 import inc.elevati.smartmessaging.utils.FilterOptions;
 import inc.elevati.smartmessaging.utils.Message;
 import inc.elevati.smartmessaging.utils.MvpContracts;
@@ -197,5 +198,15 @@ public class MainPresenter implements MainContracts.MainPresenter {
     @Override
     public FilterOptions getFilterOptions() {
         return filterOptions;
+    }
+
+    @Override
+    public void checkToken() {
+        new FirebaseMessagingHelper(this).checkToken();
+    }
+
+    @Override
+    public void onCheckTokenResult(String token) {
+        if (token != null) FirebaseFirestoreHelper.writeToken(token, getCurrentUserName());
     }
 }

@@ -2,12 +2,11 @@ package inc.elevati.smartmessaging.model;
 
 public class User {
 
-    private String name, email, uid;
+    private String name, email;
 
-    public User(String name, String email, String uid) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.uid = uid;
     }
 
     public String getName() {
@@ -16,9 +15,5 @@ public class User {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getUid() {
-        return uid;
     }
 }

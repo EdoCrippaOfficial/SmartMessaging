@@ -10,4 +10,10 @@
 
     <color name="colorAccent">#2E2ED1</color>
 
+    <color name="colorPriorityLight1">#FFFFFF</color>
+    <color name="colorPriorityLight2">#FFFFCC</color>
+    <color name="colorPriorityLight3">#FFFF80</color>
+    <color name="colorPriorityLight4">#FFB380</color>
+    <color name="colorPriorityLight5">#FF8080</color>
+
 </resources>

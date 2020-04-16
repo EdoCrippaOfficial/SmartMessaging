@@ -124,6 +124,10 @@ public interface MainContracts {
         void setFilterOptions(int minPriority, int maxPriority, boolean showSingleMessages, boolean showGroupMessages);
 
         FilterOptions getFilterOptions();
+
+        void checkToken();
+
+        void onCheckTokenResult(String token);
     }
 
     interface MessageDialogView extends MvpContracts.MvpView {

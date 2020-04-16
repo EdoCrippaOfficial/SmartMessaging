@@ -1,4 +1,4 @@
-package inc.elevati.smartmessaging.model;
+package inc.elevati.smartmessaging.model.utils;
 
 public class FilterOptions {
 

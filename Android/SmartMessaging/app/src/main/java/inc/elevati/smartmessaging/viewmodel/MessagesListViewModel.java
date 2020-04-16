@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
-import inc.elevati.smartmessaging.model.FilterOptions;
-import inc.elevati.smartmessaging.model.FirebaseFirestoreHelper;
+import inc.elevati.smartmessaging.model.utils.FilterOptions;
+import inc.elevati.smartmessaging.model.firebase.FirebaseFirestoreHelper;
 import inc.elevati.smartmessaging.model.Message;
 
 // ViewModel che si occupa della richiesta dei messaggi da visualizzare (si dovrà interfacciare con Firebase)
@@ -56,6 +56,11 @@ public class MessagesListViewModel extends ViewModel {
 
         FilterOptions newFilterOptions = new FilterOptions(minPriority, maxPriority, showSingleMessages, showGroupMessages);
         filterOptions.setValue(newFilterOptions);
+    }
+
+    public void initFilterOptions() {
+        if (filterOptions == null)
+            setFilterOptions(1, 5, true, true);
     }
 
     public LiveData<FilterOptions> getFilterOptions() {

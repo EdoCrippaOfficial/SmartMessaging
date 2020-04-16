@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="inc.elevati.smartmessaging.R" />
+
         <variable
             name="message"
             type="inc.elevati.smartmessaging.model.Message" />
@@ -13,13 +15,14 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/message_background"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="115dp"
         android:gravity="center"
-        android:background="?message_background"
         android:padding="5dp"
         android:baselineAligned="false"
+        android:background="@{message.priority}"
         android:onClick="@{() ->  listener.onClick(message)}">
 
         <TextView

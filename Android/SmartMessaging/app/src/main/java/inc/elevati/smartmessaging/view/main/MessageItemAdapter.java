@@ -27,12 +27,10 @@ public class MessageItemAdapter extends RecyclerView.Adapter<MessageItemAdapter.
     private List<Message> messages;
     private OnMessageClickListener messageClickListener;
 
-    MessageItemAdapter(OnMessageClickListener messageClickListener) {
+    MessageItemAdapter(OnMessageClickListener messageClickListener, int sortCriteria) {
         this.messageClickListener = messageClickListener;
         this.messages = new ArrayList<>();
-
-        // Ordinamento standard dal più recente
-        this.sorter = (o1, o2) -> Long.compare(o2.getTimestamp(), o1.getTimestamp());
+        setSortCriteria(sortCriteria);
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
@@ -46,13 +44,6 @@ public class MessageItemAdapter extends RecyclerView.Adapter<MessageItemAdapter.
         }
     }
 
-    /**
-     * Called when a single item holder in RecyclerView is created, here
-     * click listener is attached to ViewHolder
-     * @param parent the parent View
-     * @param viewType the view type
-     * @return the ViewHolder created
-     */
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,11 +54,6 @@ public class MessageItemAdapter extends RecyclerView.Adapter<MessageItemAdapter.
         return new MessageViewHolder(binding);
     }
 
-    /**
-     * Method called when a message is bound to ViewHolder, here all Views are initialized
-     * @param holder the ViewHolder
-     * @param position the message position in the list
-     */
     @Override
     public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position) {
         holder.binding.setMessage(messages.get(position));

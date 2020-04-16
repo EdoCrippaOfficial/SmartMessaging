@@ -137,9 +137,9 @@ public class SignInFragment extends Fragment implements LoginContracts.SignInVie
     /** {@inheritDoc} */
     @Override
     public void startMainActivity() {
-        Activity activity = getActivity();
-        if (activity == null) return;
+        Activity activity = requireActivity();
         Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra("login", true);
         startActivity(intent);
         activity.finish();
     }

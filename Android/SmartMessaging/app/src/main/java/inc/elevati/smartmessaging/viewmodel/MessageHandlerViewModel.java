@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import inc.elevati.smartmessaging.model.Message;
-import inc.elevati.smartmessaging.model.FirebaseFirestoreHelper;
+import inc.elevati.smartmessaging.model.firebase.FirebaseFirestoreHelper;
 
 // ViewModel che si occupa semplicemente di tenere salvato il messaggio da visualizzare nel dialog mentre questo viene creato
 public class MessageHandlerViewModel extends ViewModel {

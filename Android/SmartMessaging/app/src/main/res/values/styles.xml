@@ -18,7 +18,11 @@
         <item name="android:listDivider">@drawable/divider</item>
         <item name="android:dropDownListViewStyle">@style/DropDownStyleLight</item>
         <item name="android:dialogTheme">@style/DialogLight</item>
-        <item name="message_background">@drawable/message_bg_light</item>
+        <item name="colorPriority1">@color/colorPriorityLight1</item>
+        <item name="colorPriority2">@color/colorPriorityLight2</item>
+        <item name="colorPriority3">@color/colorPriorityLight3</item>
+        <item name="colorPriority4">@color/colorPriorityLight4</item>
+        <item name="colorPriority5">@color/colorPriorityLight5</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.MaterialComponents.NoActionBar">
@@ -39,14 +43,16 @@
         <item name="android:listDivider">@drawable/divider</item>
         <item name="android:dropDownListViewStyle">@style/DropDownStyleDark</item>
         <item name="android:dialogTheme">@style/DialogDark</item>
-        <item name="message_background">@drawable/message_bg_dark</item>
         <item name="navigationViewStyle">@style/NavigationViewDark</item>
+        <item name="colorPriority1">@color/colorPriorityDark1</item>
+        <item name="colorPriority2">@color/colorPriorityDark2</item>
+        <item name="colorPriority3">@color/colorPriorityDark3</item>
+        <item name="colorPriority4">@color/colorPriorityDark4</item>
+        <item name="colorPriority5">@color/colorPriorityDark5</item>
     </style>
 
     <style name="DialogDark" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:progressBarStyle">@style/ProgressBar</item>
-        <item name="android:colorPrimary">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">@color/colorBackgroundDark</item>
         <item name="android:textColorPrimary">@color/textPrimaryDark</item>
         <item name="android:textColorSecondary">@color/textSecondaryDark</item>
         <item name="android:textColorTertiary">@color/textTertiaryDark</item>
@@ -54,7 +60,6 @@
 
     <style name="DialogLight" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:progressBarStyle">@style/ProgressBar</item>
-        <item name="android:background">@color/colorBackgroundLight</item>
         <item name="android:textColorPrimary">@color/textPrimaryLight</item>
         <item name="android:textColorSecondary">@color/textSecondaryLight</item>
         <item name="android:textColorTertiary">@color/textTertiaryLight</item>

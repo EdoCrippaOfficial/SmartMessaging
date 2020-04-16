@@ -17,4 +17,17 @@
     <color name="textSecondaryDark">#A3A3A3</color>
     <color name="textTertiaryDark">#757575</color>
     <color name="dividerDark">#A3A3A3</color>
+
+    <color name="colorPriorityLight1">#FFFFFF</color>
+    <color name="colorPriorityLight2">#FFFFCC</color>
+    <color name="colorPriorityLight3">#FFFF80</color>
+    <color name="colorPriorityLight4">#FFB380</color>
+    <color name="colorPriorityLight5">#FF8080</color>
+
+    <color name="colorPriorityDark1">#000000</color>
+    <color name="colorPriorityDark2">#330000</color>
+    <color name="colorPriorityDark3">#4d0000</color>
+    <color name="colorPriorityDark4">#660000</color>
+    <color name="colorPriorityDark5">#800000</color>
+
 </resources>

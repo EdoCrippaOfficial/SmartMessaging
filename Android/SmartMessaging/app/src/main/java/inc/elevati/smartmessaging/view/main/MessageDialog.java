@@ -16,9 +16,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import inc.elevati.smartmessaging.R;
 import inc.elevati.smartmessaging.databinding.MessageLayoutBinding;
+import inc.elevati.smartmessaging.model.Message;
 import inc.elevati.smartmessaging.view.utils.ProgressDialog;
 import inc.elevati.smartmessaging.viewmodel.MessageHandlerViewModel;
-import inc.elevati.smartmessaging.model.Message;
 import inc.elevati.smartmessaging.viewmodel.MessagesListViewModel;
 
 public class MessageDialog extends DialogFragment {

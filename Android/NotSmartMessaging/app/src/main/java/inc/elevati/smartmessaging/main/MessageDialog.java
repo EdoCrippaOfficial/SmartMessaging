@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import inc.elevati.smartmessaging.R;
 import inc.elevati.smartmessaging.utils.Message;
+import inc.elevati.smartmessaging.utils.Utils;
 
 /**
  * In this class it is defined the style of the dialog shown when user clicks on a message,
@@ -63,6 +65,8 @@ public class MessageDialog extends DialogFragment implements MainContracts.Messa
         // Presenter retrieving
         presenter = ((MainActivity) requireActivity()).getPresenter();
 
+        LinearLayout message_layout = v.findViewById(R.id.message_layout);
+        Utils.setBackgroundColor(message_layout, message.getPriority());
         TextView tv_title = v.findViewById(R.id.tv_title);
         TextView tv_body = v.findViewById(R.id.tv_body);
         TextView tv_date = v.findViewById(R.id.tv_date);

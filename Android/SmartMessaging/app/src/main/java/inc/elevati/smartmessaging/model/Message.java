@@ -1,17 +1,24 @@
 package inc.elevati.smartmessaging.model;
 
+import android.content.res.TypedArray;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.StateSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import inc.elevati.smartmessaging.R;
+import inc.elevati.smartmessaging.model.utils.Colors;
 
 public class Message {
 
@@ -78,6 +85,28 @@ public class Message {
 
     public boolean isThisYear() {
         return isThisYear;
+    }
+
+    // Metodo per settare lo sfondo del messaggio col colore giusto e cambiando colore al touch
+    @BindingAdapter("android:background")
+    public static void setBackground(final LinearLayout layout, int priority) {
+        int[] attrs = {R.attr.colorPrimary, Colors.getColorByPriority(priority)};
+        TypedArray typedArray = layout.getContext().obtainStyledAttributes(attrs);
+        int primaryColor = typedArray.getColor(0, ContextCompat.getColor(layout.getContext(), R.color.colorPrimaryLight));
+        int priorityColor = typedArray.getColor(1, ContextCompat.getColor(layout.getContext(), R.color.colorPriorityLight1));
+        typedArray.recycle();
+
+        GradientDrawable pressedDrawable = new GradientDrawable();
+        pressedDrawable.setColor(primaryColor);
+
+        GradientDrawable defaultDrawable = new GradientDrawable();
+        defaultDrawable.setColor(priorityColor);
+
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable);
+        stateListDrawable.addState(StateSet.WILD_CARD, defaultDrawable);
+
+        layout.setBackground(stateListDrawable);
     }
 
     // Metodo per caricare l'immagine. Settato nel xml del layout e chiamato via data binding

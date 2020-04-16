@@ -1,4 +1,4 @@
-package inc.elevati.smartmessaging.model;
+package inc.elevati.smartmessaging.model.firebase;
 
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -12,6 +12,7 @@ import java.util.Map;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import inc.elevati.smartmessaging.model.Message;
 
 public class FirebaseFirestoreHelper {
 
@@ -84,5 +85,12 @@ public class FirebaseFirestoreHelper {
                     else result.setValue(DELETE_FAILED);
                 });
         return result;
+    }
+
+    public void writeToken(String token, String user) {
+        FirebaseFirestore dbReference = FirebaseFirestore.getInstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", token);
+        dbReference.collection("users").document(user).set(data);
     }
 }

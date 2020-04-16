@@ -1,10 +1,15 @@
 package inc.elevati.smartmessaging.main;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.util.StateSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,10 +21,12 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import inc.elevati.smartmessaging.R;
 import inc.elevati.smartmessaging.utils.Message;
+import inc.elevati.smartmessaging.utils.Utils;
 
 import static inc.elevati.smartmessaging.main.MainContracts.SORT_DATE_NEWEST;
 import static inc.elevati.smartmessaging.main.MainContracts.SORT_DATE_OLDEST;
@@ -43,11 +50,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     /** Class that holds the required View objects in a layout */
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
+        LinearLayout message_layout;
         TextView tv_title, tv_body, tv_date;
         ImageView iv_image;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.message_layout = itemView.findViewById(R.id.message_layout);
             this.tv_title = itemView.findViewById(R.id.tv_title);
             this.tv_body = itemView.findViewById(R.id.tv_body);
             this.iv_image = itemView.findViewById(R.id.iv_image);
@@ -90,6 +99,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final Message message = messages.get(position);
+
+        // Background color
+        Utils.setBackgroundColor(holder.message_layout, message.getPriority());
         holder.tv_title.setText(message.getTitle());
         holder.tv_body.setText(message.getBody());
         DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);

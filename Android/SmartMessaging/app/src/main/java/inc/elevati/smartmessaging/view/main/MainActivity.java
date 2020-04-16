@@ -10,15 +10,9 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -29,12 +23,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import inc.elevati.smartmessaging.R;
-import inc.elevati.smartmessaging.model.FirebaseAuthHelper;
 import inc.elevati.smartmessaging.model.Message;
 import inc.elevati.smartmessaging.view.login.AuthActivity;
 import inc.elevati.smartmessaging.viewmodel.AuthViewModel;
@@ -48,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private MessageItemAdapter messageItemAdapter;
     private DrawerLayout drawerLayout;
     private String currentUser;
+    private int sortCriteria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +46,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (darkTheme)
             setTheme(R.style.DarkTheme);
         setContentView(R.layout.activity_main);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getBoolean("login"))
-            checkToken();
+        sortCriteria = getIntent().getIntExtra("sort", MessageItemAdapter.SORT_NEWEST);
 
         // Oggetto che permette di recuperare i ViewModel
         viewModelProvider = new ViewModelProvider(this);
@@ -115,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         RecyclerView container = findViewById(R.id.messages_container);
 
         // Creazione adapter, l'argomento è la funzione da chiamare quando viene cliccato un messaggio (interfaccia OnMessageClickListener)
-        messageItemAdapter = new MessageItemAdapter(this::showMessageDialog);
+        messageItemAdapter = new MessageItemAdapter(this::showMessageDialog, sortCriteria);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         container.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(container.getContext(), layoutManager.getOrientation());
@@ -138,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         AuthViewModel authViewModel = viewModelProvider.get(AuthViewModel.class);
 
         // Recupero dei dati dell'utente
-
         authViewModel.getCurrentUser().observe(this, user -> {
             TextView tvUser = headerView.findViewById(R.id.tv_username);
             TextView tvEmail = headerView.findViewById(R.id.tv_email);
@@ -146,10 +132,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             tvEmail.setText(user.getEmail());
             currentUser = user.getName();
 
+            // Controllo se è il caso di settare il token nel DB
+            Bundle extras = getIntent().getExtras();
+            boolean checkToken = extras != null && extras.getBoolean("login");
+            if (checkToken) {
+                authViewModel.checkToken().observe(this, token -> {
+                    if (token != null) {
+                        authViewModel.sendTokenToServer(token, currentUser);
+                    }
+                });
+            }
+
             // Osservazione del LiveData richiesto che conterrà i messaggi quando sono pronti per essere visualizzati
             MessagesListViewModel messagesListViewModel = viewModelProvider.get(MessagesListViewModel.class);
             messagesListViewModel.setUserID(currentUser);
-            messagesListViewModel.setFilterOptions(1, 5, true, true);
+            messagesListViewModel.initFilterOptions();
             messagesListViewModel.getFilteredMessages().observe(this, messages -> {
                 messageItemAdapter.updateMessages(messages);
                 messagesRefresher.post(() -> messagesRefresher.setRefreshing(false));
@@ -212,16 +209,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             // Cambio dell'ordine di visualizzazione
             case R.id.bn_newest:
-                messageItemAdapter.setSortCriteria(MessageItemAdapter.SORT_NEWEST);
+                sortCriteria = MessageItemAdapter.SORT_NEWEST;
+                messageItemAdapter.setSortCriteria(sortCriteria);
                 break;
             case R.id.bn_oldest:
-                messageItemAdapter.setSortCriteria(MessageItemAdapter.SORT_OLDEST);
+                sortCriteria = MessageItemAdapter.SORT_OLDEST;
+                messageItemAdapter.setSortCriteria(sortCriteria);
                 break;
             case R.id.bn_priority_high:
-                messageItemAdapter.setSortCriteria(MessageItemAdapter.SORT_PRIORITY_HIGH);
+                sortCriteria = MessageItemAdapter.SORT_PRIORITY_HIGH;
+                messageItemAdapter.setSortCriteria(sortCriteria);
                 break;
             case R.id.bn_priority_low:
-                messageItemAdapter.setSortCriteria(MessageItemAdapter.SORT_PRIORITY_LOW);
+                sortCriteria = MessageItemAdapter.SORT_PRIORITY_LOW;
+                messageItemAdapter.setSortCriteria(sortCriteria);
                 break;
             case R.id.bn_logout:
                 logOut();
@@ -259,23 +260,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             setTheme(R.style.DarkTheme);
         else
             setTheme(R.style.LightTheme);
+        getIntent().putExtra("sort", sortCriteria);
         recreate();
-    }
-
-    private void checkToken(){
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) return;
-                    String token = task.getResult().getToken();
-                    sendTokenToServer(token);
-                });
-    }
-
-    private void sendTokenToServer(String token){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> data = new HashMap<>();
-        data.put("token", token);
-        String username = FirebaseAuthHelper.getInstance().getCurrentUser().getValue().getName();
-        db.collection("users").document(username).set(data);
     }
 }

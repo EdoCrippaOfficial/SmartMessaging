@@ -3,7 +3,9 @@ package inc.elevati.smartmessaging.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import inc.elevati.smartmessaging.model.FirebaseAuthHelper;
+import inc.elevati.smartmessaging.model.firebase.FirebaseAuthHelper;
+import inc.elevati.smartmessaging.model.firebase.FirebaseFirestoreHelper;
+import inc.elevati.smartmessaging.model.firebase.FirebaseMessagingHelper;
 import inc.elevati.smartmessaging.model.User;
 
 // ViewModel che si occupa della comunizazione tra View e Firebase Auth
@@ -63,5 +65,13 @@ public class AuthViewModel extends ViewModel {
             ((MutableLiveData<Integer>) loginResult).setValue(LOGIN_FAILED_UNKNOWN);
         }
         return loginResult;
+    }
+
+    public LiveData<String> checkToken() {
+        return FirebaseMessagingHelper.getInstance().checkToken();
+    }
+
+    public void sendTokenToServer(String token, String user) {
+        FirebaseFirestoreHelper.getInstance().writeToken(token, user);
     }
 }

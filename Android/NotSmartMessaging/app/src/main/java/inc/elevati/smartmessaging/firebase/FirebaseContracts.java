@@ -1,6 +1,8 @@
 package inc.elevati.smartmessaging.firebase;
 
 
+import inc.elevati.smartmessaging.utils.Message;
+
 /** Generic interface that defines contracts for firebase package */
 public interface FirebaseContracts {
 
@@ -23,5 +25,17 @@ public interface FirebaseContracts {
          * @param password the user password
          */
         void signIn(String email, String password);
+    }
+
+    interface MessagingHelper {
+
+        void checkToken();
+    }
+
+    interface FirestoreHelper {
+
+        void fetchMessages(String userID);
+
+        void deleteMessage(Message message, String userID);
     }
 }
