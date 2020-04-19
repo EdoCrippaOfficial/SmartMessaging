@@ -7,22 +7,25 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-public class AdminTest {
+public class FirebaseHelper {
 
-    public static void main(String[] args) {
+    private static FirebaseHelper instance = null;
 
+    public static FirebaseHelper getInstance(){
+        if (instance == null)
+            instance = new FirebaseHelper();
+        return instance;
+    }
+
+    private FirebaseHelper() {
         try {
-
             FileInputStream serviceAccount = new FileInputStream("firebase-admin-key.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
@@ -34,46 +37,63 @@ public class AdminTest {
 
             System.out.println("FIREBASE INIZIALIZZATO!");
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        String token = null;
-        
+    private List<String> getTokens(List<String> dest){
         Firestore db = FirestoreClient.getFirestore();
-        DocumentReference docRef = db.collection("users").document("Edoardo");
-
-        // asynchronously retrieve the document
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-        DocumentSnapshot document = null;
-        try {
-            document = future.get();
-            if (document.exists()) {
-                token = document.getString("token");
-                System.out.println("Document data: " + token);
-            } else {
-                System.out.println("No such document!");
+        List<String> result = new ArrayList<>();
+        for (String name : dest) {
+            DocumentReference docRef = db.collection("users").document(name);
+            // asynchronously retrieve the document
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = null;
+            String token = null;
+            try {
+                document = future.get();
+                if (document.exists()) {
+                    token = document.getString("token");
+                    if (token.equals(""))
+                        System.err.println("The user " + name + " has null token. He may have disconnected from the system");
+                    else
+                        result.add(token);
+                    System.out.println("Document data for user: " + name + " | " + token);
+                } else {
+                    throw new RuntimeException("No document for user: " + name);
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
         }
+        return result;
+    }
 
-        // This registration token comes from the client FCM SDKs.
-        String registrationToken = token;
+    public void sendMessage(Messaggio mess){
 
-        String receivers = "Edoardo; Simone; Andrea";
-        List<String> visualizing = Arrays.asList(receivers.split("; "));
+        mess.img = mess.img != null ? mess.img : "";
+
+        List<String> tokens = getTokens(mess.destinatari);
+
+        if (tokens.size() == 0)
+            throw new RuntimeException("No valid users");
+
+        String receivers = "";
+        for (String name: mess.destinatari) {
+            receivers = receivers + name + ";";
+        }
+        receivers = receivers.substring(0, receivers.length() - 1);
 
         Map<String, Object> messageDataDB = new HashMap<>();
-        messageDataDB.put("title", "Pizzetta");
-        messageDataDB.put("body", "La pizzetta era molto molto buona. Mi piaceva");
-        messageDataDB.put("image", "https://www.bfpr.it/writable/products/images-v2/184.jpg");
+        messageDataDB.put("title", mess.titolo);
+        messageDataDB.put("body", mess.corpo);
+        messageDataDB.put("image", mess.img);
         messageDataDB.put("receivers", receivers);
-        messageDataDB.put("visualizing", visualizing);
-        messageDataDB.put("priority", 4);
+        messageDataDB.put("visualizing", mess.destinatari);
+        messageDataDB.put("priority", mess.priorita);
         messageDataDB.put("timestamp", System.currentTimeMillis());
-        messageDataDB.put("cc", false);
+        messageDataDB.put("cc", mess.cc);
 
         Map<String, String> messageData = new HashMap<>();
         messageData.put("id", UUID.randomUUID().toString());
@@ -91,24 +111,21 @@ public class AdminTest {
                 .setImage((String) messageDataDB.get("image"))
                 .build();
 
-        // See documentation on defining a message payload.
-        Message message = Message.builder()
-                .setToken(registrationToken)
+        MulticastMessage messages = MulticastMessage.builder()
+                .addAllTokens(tokens)
                 .setNotification(notification)
                 .putAllData(messageData)
                 .build();
 
-        // Send a message to the device corresponding to the provided
-        // registration token.
-        String response = null;
+        BatchResponse response = null;
         try {
-            response = FirebaseMessaging.getInstance().send(message);
+            response = FirebaseMessaging.getInstance().sendMulticast(messages);
+            System.out.println(response.getSuccessCount() + " messages were sent successfully");
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
-        // Response is a message ID string.
-        System.out.println("Successfully sent message: " + response);
 
+        Firestore db = FirestoreClient.getFirestore();
         CollectionReference collectionRef = db.collection("messages");
         collectionRef.document(messageData.get("id")).create(messageDataDB);
     }

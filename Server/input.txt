@@ -1,34 +1,18 @@
-//  Questo è un commento, verrà ignorato
+
+Priorità 3
+
+Messaggio a "Simone" "Edoardo" :
+Titolo "Messaggio multiplo"
+Corpo "Messaggio multiplo con priorità 3"
 
 Priorità 5
 
-Messaggio a "Simone" "Andrea" :
-Titolo "Primo messaggio"
-Corpo "Messaggio di gruppo con priorità 5"
-CC
-Img "link ad un immagine"
-Formattazione "All caps"
-
-Priorità 9
-
 Messaggio a "Edoardo" :
-Titolo "Messaggio singolo"
-Corpo "Messaggio singolo con priorità 9"
-//CC  // Commentare questa riga per togliere l'errore
-Formattazione "All caps"
+Titolo "Messaggio singolo con immagine"
+Corpo "Boh userò sempre la pizzetta come immagine"
+Img "https://www.bfpr.it/writable/products/images-v2/184.jpg"
 
 Invia
 
 Exit
-
-//  Esempi di errori in compilazione:
-//      Priorità a (lettera e non numero, o senza numero del tutto)
-//      Mettere Titolo 2 volte
-//      Sbagliare un letterale, tipo Messagggio con 3 g
-//          -->     Non esegue nulla, genera subito l'eccezione
-//
-//  Esempio di errore a runtime:
-//      Usare CC in un messaggio a singolo desitnatario
-//          -->     Esegue le istruzioni fino ad arrivare a quella con l'errore,
-//                  e poi genera l'eccezione
 

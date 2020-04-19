@@ -1,5 +1,3 @@
-package grammar;
-
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import java.util.ArrayList;
@@ -21,7 +19,14 @@ public class smartmessageCustomListener extends smartmessageBaseListener {
     @Override
     public void exitInvia(smartmessageParser.InviaContext ctx) {
         System.out.println("INVIA");
-        // Effettivamente inviamo i messaggi salvati
+        for (Messaggio mess : messaggi) {
+            try {
+                FirebaseHelper.getInstance().sendMessage(mess);
+            }catch (RuntimeException re){
+                re.printStackTrace();
+            }
+
+        }
         messaggi.clear();
         current_msg = null;
     }
