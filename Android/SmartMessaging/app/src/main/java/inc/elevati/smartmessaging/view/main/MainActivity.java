@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
 
+import java.util.Objects;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -133,8 +135,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             currentUser = user.getName();
 
             // Controllo se è il caso di settare il token nel DB
-            Bundle extras = getIntent().getExtras();
-            boolean checkToken = extras != null && extras.getBoolean("login");
+            boolean checkToken = getIntent().getExtras() != null && getIntent().getExtras().getBoolean("login");
             if (checkToken) {
                 authViewModel.checkToken().observe(this, token -> {
                     if (token != null) {
@@ -151,11 +152,29 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 messageItemAdapter.updateMessages(messages);
                 messagesRefresher.post(() -> messagesRefresher.setRefreshing(false));
             });
+
+            // Controllo se bisogna visualizzare un messaggio aperto da notifica
+            if (getIntent().getBooleanExtra("message", false))
+                showMessage(getIntent().getExtras());
         });
+    }
+
+    private void showMessage(Bundle messageData) {
+        String id = messageData.getString("id");
+        String title = messageData.getString("title");
+        String body = messageData.getString("body");
+        String image = messageData.getString("image");
+        int priority = Integer.parseInt(messageData.getString("priority"));
+        String receivers = messageData.getString("receivers");
+        long timestamp = Long.parseLong(messageData.getString("timestamp"));
+        boolean cc = Boolean.parseBoolean(messageData.getString("cc"));
+        Message message = new Message(id, title, body, image, priority, receivers, timestamp, cc);
+        showMessageDialog(message);
     }
 
     public void logOut() {
         AuthViewModel authViewModel = viewModelProvider.get(AuthViewModel.class);
+        authViewModel.sendTokenToServer("", currentUser);
         authViewModel.signOut();
         Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);

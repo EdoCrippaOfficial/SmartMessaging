@@ -95,7 +95,8 @@
                         android:id="@+id/tv_receivers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:textAppearanceSmall" />
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:text="@{`To: ` + message.receivers}"/>
 
                 </HorizontalScrollView>
 

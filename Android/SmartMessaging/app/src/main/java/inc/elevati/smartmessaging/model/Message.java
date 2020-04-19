@@ -12,8 +12,6 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 
-import java.util.List;
-
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
@@ -22,13 +20,12 @@ import inc.elevati.smartmessaging.model.utils.Colors;
 
 public class Message {
 
-    private String id, title, body, imageUrl;
-    private List<String> receivers;
+    private String id, title, body, imageUrl, receivers;
     private int priority;
     private long timestamp;
     private boolean isToday, isThisYear, isCC;
 
-    public Message(String id, String title, String body, String imageUrl, int priority, List<String> receivers, long timestamp, boolean isCC) {
+    public Message(String id, String title, String body, String imageUrl, int priority, String receivers, long timestamp, boolean isCC) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -63,7 +60,7 @@ public class Message {
         return imageUrl;
     }
 
-    public List<String> getReceivers() {
+    public String getReceivers() {
         return receivers;
     }
 

@@ -20,12 +20,20 @@
         <activity android:name=".view.main.MainActivity" />
 
         <service
-            android:name=".service.MessagingService"
+            android:name=".model.firebase.FirebaseMessagingHelper"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
 
     </application>
 

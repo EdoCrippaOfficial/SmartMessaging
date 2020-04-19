@@ -43,6 +43,13 @@ public class AuthActivity extends FragmentActivity {
 
     public void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
+
+        // Se l'app è avviata da notifica allora inoltra a MainActivity il messaggio da visualizzare
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.getString("title") != null) {
+            intent.putExtra("message", true);
+            intent.putExtras(extras);
+        }
         startActivity(intent);
         finish();
     }

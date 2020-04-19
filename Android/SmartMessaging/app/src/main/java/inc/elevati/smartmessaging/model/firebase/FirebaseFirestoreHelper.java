@@ -30,6 +30,14 @@ public class FirebaseFirestoreHelper {
         return instance;
     }
 
+    void addMessage(Message message) {
+        List<Message> messagesList = messages.getValue();
+        if (messagesList == null)
+            messagesList = new ArrayList<>();
+        messagesList.add(message);
+        messages.postValue(messagesList);
+    }
+
     public LiveData<List<Message>> fetchMessages(String userID) {
         if (messages == null) {
             messages = new MutableLiveData<>();
@@ -65,7 +73,7 @@ public class FirebaseFirestoreHelper {
             String body = snap.getString("body");
             String image = snap.getString("image");
             int priority = (int) (long) snap.getLong("priority");
-            List<String> receivers = (List<String>) snap.get("receivers");
+            String receivers = snap.getString("receivers");
             long timestamp = snap.getLong("timestamp");
             boolean CC = snap.getBoolean("cc");
             messagesList.add(new Message(id, title, body, image, priority, receivers, timestamp, CC));

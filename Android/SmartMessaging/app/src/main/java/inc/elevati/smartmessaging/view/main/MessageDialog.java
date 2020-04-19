@@ -6,7 +6,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -65,14 +64,6 @@ public class MessageDialog extends DialogFragment {
 
     private void showMessage(Message message, MessageLayoutBinding binding) {
         binding.setMessage(message);
-
-        // Visualizzazione destinatari (no data binding perchè è una lista con lunghezza dinamica)
-        TextView tv_receivers = binding.getRoot().findViewById(R.id.tv_receivers);
-        StringBuilder builder = new StringBuilder();
-        for (String user: message.getReceivers()) {
-            builder.append(user).append("; ");
-        }
-        tv_receivers.setText(getString(R.string.receivers, builder.toString()));
 
         // Listener bottone cancella, operazione sempre attraverso il ViewModel
         binding.getRoot().findViewById(R.id.bn_delete).setOnClickListener(v -> {
