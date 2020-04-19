@@ -42,7 +42,7 @@ public class AdminTest {
         String token = null;
         
         Firestore db = FirestoreClient.getFirestore();
-        DocumentReference docRef = db.collection("users").document("Simone");
+        DocumentReference docRef = db.collection("users").document("Edoardo");
 
         // asynchronously retrieve the document
         ApiFuture<DocumentSnapshot> future = docRef.get();
@@ -66,12 +66,12 @@ public class AdminTest {
         List<String> visualizing = Arrays.asList(receivers.split("; "));
 
         Map<String, Object> messageDataDB = new HashMap<>();
-        messageDataDB.put("title", "Titolo");
-        messageDataDB.put("body", "Corpo");
-        messageDataDB.put("image", "");
+        messageDataDB.put("title", "Pizzetta");
+        messageDataDB.put("body", "La pizzetta era molto molto buona. Mi piaceva");
+        messageDataDB.put("image", "https://www.bfpr.it/writable/products/images-v2/184.jpg");
         messageDataDB.put("receivers", receivers);
         messageDataDB.put("visualizing", visualizing);
-        messageDataDB.put("priority", 1);
+        messageDataDB.put("priority", 4);
         messageDataDB.put("timestamp", System.currentTimeMillis());
         messageDataDB.put("cc", false);
 
@@ -85,10 +85,16 @@ public class AdminTest {
         messageData.put("timestamp", String.valueOf(messageDataDB.get("timestamp")));
         messageData.put("cc", String.valueOf(messageDataDB.get("cc")));
 
+        Notification notification = Notification.builder()
+                .setTitle((String) messageDataDB.get("title"))
+                .setBody((String) messageDataDB.get("body"))
+                .setImage((String) messageDataDB.get("image"))
+                .build();
+
         // See documentation on defining a message payload.
         Message message = Message.builder()
                 .setToken(registrationToken)
-                .setNotification(Notification.builder().setTitle("Ciao").build())
+                .setNotification(notification)
                 .putAllData(messageData)
                 .build();
 
