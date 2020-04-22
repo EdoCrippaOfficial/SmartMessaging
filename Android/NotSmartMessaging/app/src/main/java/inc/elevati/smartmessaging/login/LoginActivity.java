@@ -62,6 +62,11 @@ public class LoginActivity extends FragmentActivity implements LoginContracts.Lo
     @Override
     public void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.getString("title") != null) {
+            intent.putExtra("message", true);
+            intent.putExtras(extras);
+        }
         startActivity(intent);
         finish();
     }

@@ -87,7 +87,8 @@ public class RegisterPresenter implements LoginContracts.RegisterPresenter {
 
         // Everything is ok, proceed with register process
         view.showProgressDialog();
-        FirebaseContracts.AuthHelper helper = new FirebaseAuthHelper(this);
+        FirebaseContracts.AuthHelper helper = FirebaseAuthHelper.getInstance();
+        helper.setPresenter(this);
         helper.register(name, email, password);
     }
 

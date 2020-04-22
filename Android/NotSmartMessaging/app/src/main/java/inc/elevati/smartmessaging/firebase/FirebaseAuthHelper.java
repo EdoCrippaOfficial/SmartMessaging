@@ -24,26 +24,10 @@ import static inc.elevati.smartmessaging.login.LoginContracts.RegisterTaskResult
 public class FirebaseAuthHelper implements FirebaseContracts.AuthHelper {
 
     /** The listener that gets notified about register-related tasks */
-    private LoginContracts.RegisterPresenter registerListener;
+    private LoginContracts.RegisterPresenter registerPresenter;
 
     /** The listener that gets notified about login-related tasks */
-    private LoginContracts.SignInPresenter loginListener;
-
-    /**
-     * Constructor used when register-related tasks are needed
-     * @param registerListener the presenter that is requesting services
-     */
-    public FirebaseAuthHelper(LoginContracts.RegisterPresenter registerListener) {
-        this.registerListener = registerListener;
-    }
-
-    /**
-     * Constructor used when login-related tasks are needed
-     * @param loginListener the presenter that is requesting services
-     */
-    public FirebaseAuthHelper(LoginContracts.SignInPresenter loginListener) {
-        this.loginListener = loginListener;
-    }
+    private LoginContracts.SignInPresenter loginPresenter;
 
     /** Current user displayed name */
     private static String userName;
@@ -53,6 +37,26 @@ public class FirebaseAuthHelper implements FirebaseContracts.AuthHelper {
 
     /** Current user id */
     private static String userId;
+
+    private static FirebaseAuthHelper instance;
+
+    private FirebaseAuthHelper() {}
+
+    public static FirebaseAuthHelper getInstance() {
+        if (instance == null)
+            instance = new FirebaseAuthHelper();
+        return instance;
+    }
+
+    @Override
+    public void setPresenter(LoginContracts.SignInPresenter presenter) {
+        this.loginPresenter = presenter;
+    }
+
+    @Override
+    public void setPresenter(LoginContracts.RegisterPresenter presenter) {
+        this.registerPresenter = presenter;
+    }
 
     /**
      * @return the current user displayed name
@@ -119,16 +123,16 @@ public class FirebaseAuthHelper implements FirebaseContracts.AuthHelper {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    registerListener.onRegisterTaskComplete(REGISTER_ACCOUNT_CREATED);
+                    registerPresenter.onRegisterTaskComplete(REGISTER_ACCOUNT_CREATED);
                 } else {
 
                     // Account already exists
                     if (task.getException() instanceof FirebaseAuthUserCollisionException)
-                        registerListener.onRegisterTaskComplete(REGISTER_FAILED_ALREADY_EXISTS);
+                        registerPresenter.onRegisterTaskComplete(REGISTER_FAILED_ALREADY_EXISTS);
 
                     // Unknown error
                     else
-                        registerListener.onRegisterTaskComplete(REGISTER_FAILED_UNKNOWN);
+                        registerPresenter.onRegisterTaskComplete(REGISTER_FAILED_UNKNOWN);
                 }
             }
         });
@@ -148,20 +152,20 @@ public class FirebaseAuthHelper implements FirebaseContracts.AuthHelper {
                             userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
                             userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            loginListener.onSignInTaskComplete(LoginContracts.SignInTaskResult.LOGIN_OK);
+                            loginPresenter.onSignInTaskComplete(LoginContracts.SignInTaskResult.LOGIN_OK);
                         } else {
 
                             // Account doesn't exists
                             if (task.getException() instanceof FirebaseAuthInvalidUserException)
-                                loginListener.onSignInTaskComplete(LOGIN_FAILED_NO_ACCOUNT);
+                                loginPresenter.onSignInTaskComplete(LOGIN_FAILED_NO_ACCOUNT);
 
                             // Wrong password
                             else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException)
-                                loginListener.onSignInTaskComplete(LOGIN_FAILED_WRONG_PASSWORD);
+                                loginPresenter.onSignInTaskComplete(LOGIN_FAILED_WRONG_PASSWORD);
 
                             // Unknown error
                             else
-                                loginListener.onSignInTaskComplete(LOGIN_FAILED_UNKNOWN);
+                                loginPresenter.onSignInTaskComplete(LOGIN_FAILED_UNKNOWN);
                         }
                     }
                 });

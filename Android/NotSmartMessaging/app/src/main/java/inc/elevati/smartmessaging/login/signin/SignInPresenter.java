@@ -64,7 +64,8 @@ public class SignInPresenter implements LoginContracts.SignInPresenter {
 
         view.showProgressDialog();
 
-        FirebaseContracts.AuthHelper helper = new FirebaseAuthHelper(this);
+        FirebaseContracts.AuthHelper helper = FirebaseAuthHelper.getInstance();
+        helper.setPresenter(this);
         helper.signIn(email, password);
     }
 

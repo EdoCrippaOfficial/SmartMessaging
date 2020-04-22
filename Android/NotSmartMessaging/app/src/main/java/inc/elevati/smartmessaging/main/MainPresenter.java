@@ -73,6 +73,7 @@ public class MainPresenter implements MainContracts.MainPresenter {
                 break;
             case R.id.bn_logout:
                 FirebaseAuthHelper.signOut();
+                FirebaseFirestoreHelper.writeToken("", getCurrentUserName());
                 view.startLoginActivity();
                 break;
             case R.id.bn_filter:
@@ -119,7 +120,9 @@ public class MainPresenter implements MainContracts.MainPresenter {
 
     @Override
     public void loadMessages() {
-        new FirebaseFirestoreHelper(this).fetchMessages(getCurrentUserName());
+        FirebaseFirestoreHelper firebaseFirestoreHelper = FirebaseFirestoreHelper.getInstance();
+        firebaseFirestoreHelper.setPresenter(this);
+        firebaseFirestoreHelper.fetchMessages(getCurrentUserName());
     }
 
     @Override
@@ -138,10 +141,10 @@ public class MainPresenter implements MainContracts.MainPresenter {
             String body = snap.getString("body");
             String image = snap.getString("image");
             int priority = (int) (long) snap.getLong("priority");
-            List<String> receivers = (List<String>) snap.get("receivers");
             long timestamp = snap.getLong("timestamp");
-            boolean CC = snap.getBoolean("cc");
-            messages.add(new Message(id, title, body, image, priority, receivers, timestamp, CC));
+            boolean cc = snap.getBoolean("cc");
+            String receivers = cc ? snap.getString("receivers") : getCurrentUserName();
+            messages.add(new Message(id, title, body, image, priority, receivers, timestamp, cc));
         }
 
         List<Message> filtered = new ArrayList<>();
@@ -175,7 +178,9 @@ public class MainPresenter implements MainContracts.MainPresenter {
 
     @Override
     public void onDeleteMessageButtonClicked(Message message) {
-        new FirebaseFirestoreHelper(this).deleteMessage(message, getCurrentUserName());
+        FirebaseFirestoreHelper firebaseFirestoreHelper = FirebaseFirestoreHelper.getInstance();
+        firebaseFirestoreHelper.setPresenter(this);
+        firebaseFirestoreHelper.deleteMessage(message, getCurrentUserName());
     }
 
     @Override
@@ -202,7 +207,9 @@ public class MainPresenter implements MainContracts.MainPresenter {
 
     @Override
     public void checkToken() {
-        new FirebaseMessagingHelper(this).checkToken();
+        FirebaseMessagingHelper firebaseMessagingHelper = FirebaseMessagingHelper.getInstance();
+        firebaseMessagingHelper.setPresenter(this);
+        firebaseMessagingHelper.checkToken();
     }
 
     @Override

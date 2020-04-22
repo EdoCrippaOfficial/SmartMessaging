@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +17,23 @@ import inc.elevati.smartmessaging.utils.Message;
 
 public class FirebaseFirestoreHelper implements FirebaseContracts.FirestoreHelper {
 
+    private static FirebaseFirestoreHelper instance;
     private List<Message> messages;
     private MainContracts.MainPresenter presenter;
 
-    public FirebaseFirestoreHelper(MainContracts.MainPresenter presenter) {
+
+    private FirebaseFirestoreHelper() {
         messages = new ArrayList<>();
+    }
+
+    public static FirebaseFirestoreHelper getInstance() {
+        if (instance == null)
+            instance = new FirebaseFirestoreHelper();
+        return instance;
+    }
+
+    @Override
+    public void setPresenter(MainContracts.MainPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -28,7 +41,7 @@ public class FirebaseFirestoreHelper implements FirebaseContracts.FirestoreHelpe
         FirebaseFirestore dbReference = FirebaseFirestore.getInstance();
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
-        dbReference.collection("users").document(userID).set(data);
+        dbReference.collection("users").document(userID).set(data, SetOptions.merge());
     }
 
     @Override

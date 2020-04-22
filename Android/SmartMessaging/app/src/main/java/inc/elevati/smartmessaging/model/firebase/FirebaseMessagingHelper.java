@@ -58,8 +58,6 @@ public class FirebaseMessagingHelper extends FirebaseMessagingService {
 
         Message m = new Message(id, title, body, url, priority, receivers, timestamp, cc);
         FirebaseFirestoreHelper.getInstance().addMessage(m);
-
-
     }
 
 }

@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements MainContracts.Mai
         initMessagesAdapter();
         refresher.setRefreshing(true);
         presenter.loadMessages();
+        if (getIntent().getBooleanExtra("message", false))
+            showMessage(getIntent().getExtras());
     }
 
     private void initDrawer() {
@@ -136,6 +138,19 @@ public class MainActivity extends AppCompatActivity implements MainContracts.Mai
             presenter.loadMessages();
         });
         dialog.show();
+    }
+
+    private void showMessage(Bundle messageData) {
+        String id = messageData.getString("id");
+        String title = messageData.getString("title");
+        String body = messageData.getString("body");
+        String image = messageData.getString("image");
+        int priority = Integer.parseInt(messageData.getString("priority"));
+        long timestamp = Long.parseLong(messageData.getString("timestamp"));
+        boolean cc = Boolean.parseBoolean(messageData.getString("cc"));
+        String receivers = cc ? messageData.getString("receivers") : presenter.getCurrentUserName();
+        Message message = new Message(id, title, body, image, priority, receivers, timestamp, cc);
+        showMessageDialog(message);
     }
 
     /**

@@ -86,11 +86,7 @@ public class MessageDialog extends DialogFragment implements MainContracts.Messa
         ImageView iv_image = v.findViewById(R.id.iv_image);
         tv_title.setText(message.getTitle());
         tv_body.setText(message.getBody());
-        StringBuilder s = new StringBuilder();
-        for (String r: message.getReceivers()) {
-            s.append(r).append("; ");
-        }
-        tv_receivers.setText(s.toString());
+        tv_receivers.setText(message.getReceivers());
 
         DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(getContext());
         DateFormat dateFormat = android.text.format.DateFormat.getMediumDateFormat(getContext());

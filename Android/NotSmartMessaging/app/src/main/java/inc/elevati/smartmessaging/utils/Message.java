@@ -3,18 +3,14 @@ package inc.elevati.smartmessaging.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Message implements Parcelable {
 
-    private String id, title, body, imageUrl;
-    private List<String> receivers;
+    private String id, title, body, imageUrl, receivers;
     private int priority;
     private long timestamp;
     private boolean isCC;
 
-    public Message(String id, String title, String body, String imageUrl, int priority, List<String> receivers, long timestamp, boolean isCC) {
+    public Message(String id, String title, String body, String imageUrl, int priority, String receivers, long timestamp, boolean isCC) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -35,11 +31,7 @@ public class Message implements Parcelable {
         this.body = in.readString();
         this.imageUrl = in.readString();
         this.priority = in.readInt();
-        int nReceivers = in.readInt();
-        this.receivers = new ArrayList<>();
-        for (int i = 0; i < nReceivers; i++) {
-            receivers.add(in.readString());
-        }
+        this.receivers = in.readString();
         this.timestamp = in.readLong();
         this.isCC = in.readInt() == 1;
     }
@@ -60,7 +52,7 @@ public class Message implements Parcelable {
         return imageUrl;
     }
 
-    public List<String> getReceivers() {
+    public String getReceivers() {
         return receivers;
     }
 
@@ -93,9 +85,7 @@ public class Message implements Parcelable {
         dest.writeString(body);
         dest.writeString(imageUrl);
         dest.writeInt(priority);
-        dest.writeInt(receivers.size());
-        for (String r: receivers)
-            dest.writeString(r);
+        dest.writeString(receivers);
         dest.writeLong(timestamp);
         dest.writeInt(isCC ? 1 : 0);
     }

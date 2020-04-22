@@ -53,7 +53,7 @@ public class FirebaseFirestoreHelper {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        parseData(task.getResult());
+                        parseData(task.getResult(), userID);
                     } else {
                         // Finto refresh
                         if (messages.getValue() == null) {
@@ -65,7 +65,7 @@ public class FirebaseFirestoreHelper {
                 });
     }
 
-    private void parseData(QuerySnapshot data) {
+    private void parseData(QuerySnapshot data, String userID) {
         List<Message> messagesList = new ArrayList<>();
         for (QueryDocumentSnapshot snap: data) {
             String id = snap.getId();
@@ -73,10 +73,10 @@ public class FirebaseFirestoreHelper {
             String body = snap.getString("body");
             String image = snap.getString("image");
             int priority = (int) (long) snap.getLong("priority");
-            String receivers = snap.getString("receivers");
             long timestamp = snap.getLong("timestamp");
-            boolean CC = snap.getBoolean("cc");
-            messagesList.add(new Message(id, title, body, image, priority, receivers, timestamp, CC));
+            boolean cc = snap.getBoolean("cc");
+            String receivers = cc ? snap.getString("receivers") : userID;
+            messagesList.add(new Message(id, title, body, image, priority, receivers, timestamp, cc));
         }
         messages.setValue(messagesList);
     }

@@ -1,6 +1,8 @@
 package inc.elevati.smartmessaging.firebase;
 
 
+import inc.elevati.smartmessaging.login.LoginContracts;
+import inc.elevati.smartmessaging.main.MainContracts;
 import inc.elevati.smartmessaging.utils.Message;
 
 /** Generic interface that defines contracts for firebase package */
@@ -10,6 +12,10 @@ public interface FirebaseContracts {
      * Implemented by class that handles Firebase Auth tasks
      */
     interface AuthHelper {
+
+        void setPresenter(LoginContracts.SignInPresenter presenter);
+
+        void setPresenter(LoginContracts.RegisterPresenter presenter);
 
         /**
          * Registers a new user in the Firebase Auth system
@@ -29,10 +35,14 @@ public interface FirebaseContracts {
 
     interface MessagingHelper {
 
+        void setPresenter(MainContracts.MainPresenter presenter);
+
         void checkToken();
     }
 
     interface FirestoreHelper {
+
+        void setPresenter(MainContracts.MainPresenter presenter);
 
         void fetchMessages(String userID);
 
