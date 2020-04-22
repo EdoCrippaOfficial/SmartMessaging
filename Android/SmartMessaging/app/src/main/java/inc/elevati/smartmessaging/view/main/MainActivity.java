@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         String receivers = messageData.getString("receivers");
         long timestamp = Long.parseLong(messageData.getString("timestamp"));
         boolean cc = Boolean.parseBoolean(messageData.getString("cc"));
+        if(!cc)
+            receivers = currentUser;
         Message message = new Message(id, title, body, image, priority, receivers, timestamp, cc);
         showMessageDialog(message);
     }

@@ -50,6 +50,12 @@ public class FirebaseMessagingHelper extends FirebaseMessagingService {
         String receivers = remoteMessage.getData().get("receivers");
         long timestamp = Long.parseLong(remoteMessage.getData().get("timestamp"));
         boolean cc = Boolean.parseBoolean(remoteMessage.getData().get("cc"));
+        if(!cc){
+            User user = FirebaseAuthHelper.getInstance().getCurrentUser().getValue();
+            if (user != null)
+                receivers = user.getName();
+        }
+
         Message m = new Message(id, title, body, url, priority, receivers, timestamp, cc);
         FirebaseFirestoreHelper.getInstance().addMessage(m);
 
