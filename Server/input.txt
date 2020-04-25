@@ -1,18 +1,24 @@
 
+Stats
+
 Priorità 3
 
-Messaggio a "Simone" "Edoardo" :
+Messaggio a "Simone" "Simone" "Andrea":
 Titolo "Messaggio multiplo"
-Corpo "Messaggio multiplo con priorità 3"
+Corpo "messaggio multiplo con priorità 3"
+CC
+Formattazione "all caps"
 
 Priorità 5
 
-Messaggio a "Edoardo" :
+Messaggio a "Simone" :
 Titolo "Messaggio singolo con immagine"
-Corpo "Boh userò sempre la pizzetta come immagine"
+Corpo "boh. userò sempre la pizzetta come immagine"
 Img "https://www.bfpr.it/writable/products/images-v2/184.jpg"
+Formattazione "capitalization"
 
 Invia
 
-Exit
+Stats "Andrea"
 
+Exit

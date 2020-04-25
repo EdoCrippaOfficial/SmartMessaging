@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements MainContracts.Mai
     }
 
     private void showMessage(Bundle messageData) {
+        getIntent().putExtra("message", false);
         String id = messageData.getString("id");
         String title = messageData.getString("title");
         String body = messageData.getString("body");
