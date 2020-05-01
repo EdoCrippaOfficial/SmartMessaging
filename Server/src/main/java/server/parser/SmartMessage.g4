@@ -6,19 +6,22 @@ priorita  : 'Priorità' NUM ;
 
 invia : 'Invia';
 
-message : new_mess utente+ duepunti titolo corpo opzioni;
-opzioni : (cc)? (img)? (format)?;
+stats: 'Stats' (utente)?;
+
+message : new_mess dest+ duepunti titolo corpo opzioni;
+
+new_mess : 'Messaggio a';
+dest: utente;
+duepunti : ':';
 titolo : 'Titolo' TESTO;
-utente: TESTO;
 corpo : 'Corpo' TESTO;
+opzioni : (cc)? (img)? (format)?;
+
+utente: TESTO;
+
 cc : 'CC';
 img : 'Img' TESTO;
 format : 'Formattazione' TESTO;
-
-new_mess : 'Messaggio a';
-duepunti : ':';
-
-stats: 'Stats' (utente)?;
 
 exit : EXIT;
 
@@ -37,4 +40,3 @@ LINE_COMMENT
     : '//' (~('\n'|'\r'))* -> skip;
 
 WS: [ \n\t\r]+ -> skip;
-

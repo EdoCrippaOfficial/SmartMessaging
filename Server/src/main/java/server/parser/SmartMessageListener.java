@@ -38,6 +38,16 @@ public interface SmartMessageListener extends ParseTreeListener {
 	 */
 	void exitInvia(SmartMessageParser.InviaContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SmartMessageParser#stats}.
+	 * @param ctx the parse tree
+	 */
+	void enterStats(SmartMessageParser.StatsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SmartMessageParser#stats}.
+	 * @param ctx the parse tree
+	 */
+	void exitStats(SmartMessageParser.StatsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SmartMessageParser#message}.
 	 * @param ctx the parse tree
 	 */
@@ -48,15 +58,35 @@ public interface SmartMessageListener extends ParseTreeListener {
 	 */
 	void exitMessage(SmartMessageParser.MessageContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SmartMessageParser#opzioni}.
+	 * Enter a parse tree produced by {@link SmartMessageParser#new_mess}.
 	 * @param ctx the parse tree
 	 */
-	void enterOpzioni(SmartMessageParser.OpzioniContext ctx);
+	void enterNew_mess(SmartMessageParser.New_messContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SmartMessageParser#opzioni}.
+	 * Exit a parse tree produced by {@link SmartMessageParser#new_mess}.
 	 * @param ctx the parse tree
 	 */
-	void exitOpzioni(SmartMessageParser.OpzioniContext ctx);
+	void exitNew_mess(SmartMessageParser.New_messContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SmartMessageParser#dest}.
+	 * @param ctx the parse tree
+	 */
+	void enterDest(SmartMessageParser.DestContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SmartMessageParser#dest}.
+	 * @param ctx the parse tree
+	 */
+	void exitDest(SmartMessageParser.DestContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SmartMessageParser#duepunti}.
+	 * @param ctx the parse tree
+	 */
+	void enterDuepunti(SmartMessageParser.DuepuntiContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SmartMessageParser#duepunti}.
+	 * @param ctx the parse tree
+	 */
+	void exitDuepunti(SmartMessageParser.DuepuntiContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SmartMessageParser#titolo}.
 	 * @param ctx the parse tree
@@ -68,16 +98,6 @@ public interface SmartMessageListener extends ParseTreeListener {
 	 */
 	void exitTitolo(SmartMessageParser.TitoloContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SmartMessageParser#utente}.
-	 * @param ctx the parse tree
-	 */
-	void enterUtente(SmartMessageParser.UtenteContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SmartMessageParser#utente}.
-	 * @param ctx the parse tree
-	 */
-	void exitUtente(SmartMessageParser.UtenteContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link SmartMessageParser#corpo}.
 	 * @param ctx the parse tree
 	 */
@@ -87,6 +107,26 @@ public interface SmartMessageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCorpo(SmartMessageParser.CorpoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SmartMessageParser#opzioni}.
+	 * @param ctx the parse tree
+	 */
+	void enterOpzioni(SmartMessageParser.OpzioniContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SmartMessageParser#opzioni}.
+	 * @param ctx the parse tree
+	 */
+	void exitOpzioni(SmartMessageParser.OpzioniContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SmartMessageParser#utente}.
+	 * @param ctx the parse tree
+	 */
+	void enterUtente(SmartMessageParser.UtenteContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SmartMessageParser#utente}.
+	 * @param ctx the parse tree
+	 */
+	void exitUtente(SmartMessageParser.UtenteContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SmartMessageParser#cc}.
 	 * @param ctx the parse tree
@@ -117,36 +157,6 @@ public interface SmartMessageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFormat(SmartMessageParser.FormatContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SmartMessageParser#new_mess}.
-	 * @param ctx the parse tree
-	 */
-	void enterNew_mess(SmartMessageParser.New_messContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SmartMessageParser#new_mess}.
-	 * @param ctx the parse tree
-	 */
-	void exitNew_mess(SmartMessageParser.New_messContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SmartMessageParser#duepunti}.
-	 * @param ctx the parse tree
-	 */
-	void enterDuepunti(SmartMessageParser.DuepuntiContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SmartMessageParser#duepunti}.
-	 * @param ctx the parse tree
-	 */
-	void exitDuepunti(SmartMessageParser.DuepuntiContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SmartMessageParser#stats}.
-	 * @param ctx the parse tree
-	 */
-	void enterStats(SmartMessageParser.StatsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SmartMessageParser#stats}.
-	 * @param ctx the parse tree
-	 */
-	void exitStats(SmartMessageParser.StatsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SmartMessageParser#exit}.
 	 * @param ctx the parse tree

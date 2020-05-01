@@ -10,6 +10,7 @@ import com.google.firebase.messaging.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -25,7 +26,8 @@ public class FirebaseHelper {
 
     private FirebaseHelper() {
         try {
-            FileInputStream serviceAccount = new FileInputStream("firebase-admin-key.json");
+
+            InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("firebase-admin-key.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -123,7 +125,7 @@ public class FirebaseHelper {
             if (success > 0)
                 System.out.println("Invio di " + success + sent + "completato con successo.\n");
             if (failed > 0)
-                System.out.println("Invio di " + success + fail + "non riuscito.\n");
+                System.out.println("Invio di " + failed + fail + "non riuscito.\n");
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }

@@ -46,19 +46,16 @@ public class SmartMessageCustomListener extends SmartMessageBaseListener {
     }
 
     @Override
-    public void exitMessage(SmartMessageParser.MessageContext ctx) {
-        for (SmartMessageParser.UtenteContext uCtx: ctx.utente()) {
-            if (uCtx.TESTO() != null) {
-                String testo = removeQuotes(uCtx.TESTO().getText());
-                System.out.println("DESTINATARIO " + testo);
-                if (current_msg.destinatari.contains(testo)) {
-                    System.out.println("WARNING: " + testo + " è già presente nella lista dei destinatari e verrà ignorato");
-                } else {
-                    current_msg.destinatari.add(testo);
-                }
+    public void exitDest(SmartMessageParser.DestContext ctx) {
+        if (ctx.utente().TESTO() != null) {
+            String testo = removeQuotes(ctx.utente().TESTO().getText());
+            System.out.println("DESTINATARIO " + testo);
+            if (current_msg.destinatari.contains(testo)) {
+                System.out.println("WARNING: " + testo + " è già presente nella lista dei destinatari e verrà ignorato");
+            } else {
+                current_msg.destinatari.add(testo);
             }
         }
-        System.out.print("\n");
     }
 
     @Override

@@ -52,6 +52,18 @@ public class SmartMessageBaseListener implements SmartMessageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStats(SmartMessageParser.StatsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStats(SmartMessageParser.StatsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMessage(SmartMessageParser.MessageContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -64,13 +76,37 @@ public class SmartMessageBaseListener implements SmartMessageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOpzioni(SmartMessageParser.OpzioniContext ctx) { }
+	@Override public void enterNew_mess(SmartMessageParser.New_messContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOpzioni(SmartMessageParser.OpzioniContext ctx) { }
+	@Override public void exitNew_mess(SmartMessageParser.New_messContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDest(SmartMessageParser.DestContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDest(SmartMessageParser.DestContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDuepunti(SmartMessageParser.DuepuntiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDuepunti(SmartMessageParser.DuepuntiContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -88,18 +124,6 @@ public class SmartMessageBaseListener implements SmartMessageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUtente(SmartMessageParser.UtenteContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUtente(SmartMessageParser.UtenteContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCorpo(SmartMessageParser.CorpoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -107,6 +131,30 @@ public class SmartMessageBaseListener implements SmartMessageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCorpo(SmartMessageParser.CorpoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOpzioni(SmartMessageParser.OpzioniContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOpzioni(SmartMessageParser.OpzioniContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUtente(SmartMessageParser.UtenteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUtente(SmartMessageParser.UtenteContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -143,42 +191,6 @@ public class SmartMessageBaseListener implements SmartMessageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFormat(SmartMessageParser.FormatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNew_mess(SmartMessageParser.New_messContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNew_mess(SmartMessageParser.New_messContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDuepunti(SmartMessageParser.DuepuntiContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDuepunti(SmartMessageParser.DuepuntiContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStats(SmartMessageParser.StatsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStats(SmartMessageParser.StatsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
