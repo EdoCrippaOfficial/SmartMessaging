@@ -1,0 +1,13 @@
+
+//  ERRORE: Messaggio a utente singolo ma con opzione "CC"
+
+Priorità 3
+
+Messaggio a "Simone":
+Titolo "Messaggio singolo "
+Corpo "messaggio singolo ma con CC!"
+CC
+
+Invia
+
+Exit

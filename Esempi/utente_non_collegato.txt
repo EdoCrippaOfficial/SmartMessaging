@@ -1,0 +1,12 @@
+
+//  WARNING: Uno degli utenti non è collegato
+
+Priorità 3
+
+Messaggio a "Angelo" "Edoardo":
+Titolo "Messaggio multiplo "
+Corpo "messaggio multiplo con un utente non collegato"
+
+Invia
+
+Exit

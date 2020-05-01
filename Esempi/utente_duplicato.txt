@@ -1,0 +1,14 @@
+
+//  WARNING: Utente ripetuto due volte, ignorato
+
+Priorità 3
+
+Messaggio a "Simone" "Simone" "Andrea":
+Titolo "Messaggio multiplo"
+Corpo "messaggio multiplo utente ripetuto"
+CC
+Formattazione "all caps"
+
+Invia
+
+Exit

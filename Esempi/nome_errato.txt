@@ -1,0 +1,12 @@
+
+//  ERRORE (runtime): Utente con nome sbagliato o che non esiste nel sistema
+
+Priorità 3
+
+Messaggio a "Sione":
+Titolo "Messaggio singolo "
+Corpo "messaggio con nome utente errato"
+
+Invia
+
+Exit

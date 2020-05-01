@@ -1,0 +1,12 @@
+
+//  ERRORE: Token errato (messaGGGio)
+
+Priorità 3
+
+Messagggio a "Sione":
+Titolo "Messaggio singolo "
+Corpo "messaggio con token errato"
+
+Invia
+
+Exit

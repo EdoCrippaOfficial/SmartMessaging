@@ -56,7 +56,7 @@ public class FirebaseHelper {
                     else
                         result.add(token);
                 } else {
-                    throw new RuntimeException("No document for user: " + name);
+                    throw new RuntimeException("Nel sistema non è presente l'utente: " + name);
                 }
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
@@ -72,7 +72,7 @@ public class FirebaseHelper {
         List<String> tokens = getTokens(mess.destinatari);
 
         if (tokens.size() == 0)
-            throw new RuntimeException("No valid users");
+            throw new RuntimeException("Nessun utente valido per l'invio");
 
         StringBuilder receivers = new StringBuilder();
         for (String name: mess.destinatari) {

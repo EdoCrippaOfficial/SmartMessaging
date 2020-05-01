@@ -1,0 +1,12 @@
+
+//  ERRORE: Mancano i due punti dopo i destinatari
+
+Priorità 3
+
+Messaggio a "Simone"
+Titolo "Messaggio singolo "
+Corpo "messaggio senza i due punti"
+
+Invia
+
+Exit
