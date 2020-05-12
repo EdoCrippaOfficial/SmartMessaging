@@ -20,7 +20,14 @@ public class SmartMessageCustomListener extends SmartMessageBaseListener {
     @Override
     public void exitPriorita(SmartMessageParser.PrioritaContext ctx) {
         priorita = Integer.parseInt(ctx.NUM().getText());
-        System.out.println("PRIORITA' " + ctx.NUM().getText() + "\n");
+        if (priorita < 1) {
+            System.out.println("WARNING: non è possibile utilizzare una priorità minore di 1");
+            priorita = 1;
+        } else if (priorita > 5) {
+            System.out.println("WARNING: non è possibile utilizzare una priorità maggiore di 5");
+            priorita = 5;
+        }
+        System.out.println("PRIORITA' " + priorita + "\n");
     }
 
     @Override
