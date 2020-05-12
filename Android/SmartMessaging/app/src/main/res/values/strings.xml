@@ -40,13 +40,14 @@
     <string name="login_unknown_error">An error has occurred. Please try again later</string>
 
     <string name="register_create">Create account</string>
-    <string name="register_name">Name</string>
+    <string name="register_name">Username</string>
     <string name="register_password2">Retype password</string>
     <string name="register_login">Already have an account? <a href="">Login</a></string>
-    <string name="register_no_name">Please insert a name to continue</string>
+    <string name="register_no_name">Please insert a username to continue</string>
     <string name="register_no_email">Please insert a valid email address to continue</string>
     <string name="register_no_password">Your password must be at least 8 characters long, with at least one number and one letter</string>
     <string name="register_password_not_match">The passwords you\'ve entered don\'t match</string>
+    <string name="register_username_already_exists">This username is already associated to an existing account</string>
     <string name="register_email_already_exists">This email is already associated to an existing account</string>
     <string name="register_loading">Processing request. Please wait…</string>
     <string name="register_unknown_error">An error has occurred. Please try again later</string>

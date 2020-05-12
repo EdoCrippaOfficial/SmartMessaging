@@ -104,8 +104,22 @@ public class RegisterFragment extends Fragment {
         showProgressDialog();
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        // Observer sull'oggetto LiveData. Viene chiamata la funzione handleRegistrationResult quando vi è un cambiamento sul LiveData
-        authViewModel.register(name, email, password).observe(getViewLifecycleOwner(), this::handleRegistrationResult);
+        authViewModel.checkUsername(name).observe(getViewLifecycleOwner(), result -> {
+            switch (result) {
+                case AuthViewModel.USERNAME_OK:
+                    // Observer sull'oggetto LiveData. Viene chiamata la funzione handleRegistrationResult quando vi è un cambiamento sul LiveData
+                    authViewModel.register(name, email, password).observe(getViewLifecycleOwner(), this::handleRegistrationResult);
+                    break;
+                case AuthViewModel.USERNAME_ALREADY_EXISTS:
+                    notifyUsernameAlreadyExists();
+                    dismissProgressDialog();
+                    break;
+                case AuthViewModel.USERNAME_ERROR:
+                    notifyUnknownError();
+                    dismissProgressDialog();
+                    break;
+            }
+        });
     }
 
     private void requireRegistrationResult() {
@@ -120,7 +134,7 @@ public class RegisterFragment extends Fragment {
             case AuthViewModel.REGISTER_ACCOUNT_CREATED:
                 startMainActivity();
                 break;
-            case AuthViewModel.REGISTER_FAILED_ALREADY_EXISTS:
+            case AuthViewModel.REGISTER_FAILED_EMAIL_ALREADY_EXISTS:
                 notifyEmailAlreadyExists();
                 break;
             case AuthViewModel.REGISTER_FAILED_UNKNOWN:
@@ -146,6 +160,10 @@ public class RegisterFragment extends Fragment {
         intent.putExtra("login", true);
         startActivity(intent);
         activity.finish();
+    }
+
+    private void notifyUsernameAlreadyExists() {
+        if (isAdded()) textLayoutName.setError(getString(R.string.register_username_already_exists));
     }
 
     private void notifyEmailAlreadyExists() {

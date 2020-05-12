@@ -16,8 +16,11 @@ import inc.elevati.smartmessaging.model.Message;
 
 public class FirebaseFirestoreHelper {
 
-    public final static int DELETE_SUCCESS = 0;
+    public final static int USERNAME_OK = 10;
+    public final static int USERNAME_EXISTS = 11;
+    public final static int USERNAME_ERROR = 12;
     public final static int DELETE_FAILED = 1;
+    public final static int DELETE_SUCCESS = 0;
 
     private static FirebaseFirestoreHelper instance;
     private MutableLiveData<List<Message>> messages;
@@ -100,5 +103,22 @@ public class FirebaseFirestoreHelper {
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         dbReference.collection("users").document(user).set(data);
+    }
+
+    public LiveData<Integer> checkUsername(String name) {
+        MutableLiveData<Integer> result = new MutableLiveData<>();
+        FirebaseFirestore dbReference = FirebaseFirestore.getInstance();
+        dbReference.collection("users").document(name).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().exists()) {
+                    result.setValue(USERNAME_EXISTS);
+                } else {
+                    result.setValue(USERNAME_OK);
+                }
+            } else {
+                result.setValue(USERNAME_ERROR);
+            }
+        });
+        return result;
     }
 }

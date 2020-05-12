@@ -13,7 +13,10 @@ public class AuthViewModel extends ViewModel {
 
     // Replica delle costanti per evitare di riferirsi a oggetti di Model nelle View
     public final static int REGISTER_ACCOUNT_CREATED = FirebaseAuthHelper.REGISTER_ACCOUNT_CREATED;
-    public final static int REGISTER_FAILED_ALREADY_EXISTS = FirebaseAuthHelper.REGISTER_FAILED_ALREADY_EXISTS;
+    public final static int USERNAME_ALREADY_EXISTS = FirebaseFirestoreHelper.USERNAME_EXISTS;
+    public final static int USERNAME_OK = FirebaseFirestoreHelper.USERNAME_OK;
+    public final static int USERNAME_ERROR = FirebaseFirestoreHelper.USERNAME_ERROR;
+    public final static int REGISTER_FAILED_EMAIL_ALREADY_EXISTS = FirebaseAuthHelper.REGISTER_FAILED_ALREADY_EXISTS;
     public final static int REGISTER_FAILED_UNKNOWN = FirebaseAuthHelper.REGISTER_FAILED_UNKNOWN;
     public final static int LOGIN_OK = FirebaseAuthHelper.LOGIN_OK;
     public final static int LOGIN_FAILED_NO_ACCOUNT = FirebaseAuthHelper.LOGIN_FAILED_NO_ACCOUNT;
@@ -35,6 +38,11 @@ public class AuthViewModel extends ViewModel {
 
     public void signOut() {
         FirebaseAuthHelper.getInstance().signOut();
+    }
+
+    public LiveData<Integer> checkUsername(String name) {
+        registrationResult = FirebaseFirestoreHelper.getInstance().checkUsername(name);
+        return registrationResult;
     }
 
     public LiveData<Integer> register(String name, String email, String password) {
