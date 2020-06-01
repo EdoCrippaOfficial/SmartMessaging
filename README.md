@@ -1,6 +1,8 @@
 # SmartMessaging
 
-Attraverso l’utilizzo di Antlr è stato creato un progetto in grado di inviare messaggi dal pc all’app tramite l’utilizzo del database di firebase. I messaggi inviati possono essere spediti a più destinatari, possono contenere url ad immagini e hanno una priorità, che modificherà il colore della notifica a seconda dell’importanzza. Oltre a questo si potrà vedere l’utilizzo dell’app da parte di un determinato utente attraverso la creazione di statistiche. 
+Sistema in grado di inviare messaggi da un pc ad un’app Android.  
+I messaggi inviati possono essere spediti a più destinatari, possono contenere url ad immagini e hanno una priorità, che modificherà il colore della notifica a seconda dell’importanzza.  
+Oltre a questo si potrà vedere l’utilizzo dell’app da parte di un determinato utente attraverso la creazione di statistiche. 
 
 ## Server
 

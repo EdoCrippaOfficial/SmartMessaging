@@ -3,15 +3,15 @@
 S0 -> S1 exit .  
 S1 -> M S2 .  
 S1 -> priorita numero S2 .  
-S1 -> invia S2 .
+S1 -> invia S2 .  
 S1 -> STAT S2 .   
 S2 -> M S2 .  
 S2 -> priorita numero S2 .  
-S2 -> invia S2 . 
+S2 -> invia S2 .  
 S2 -> STAT S2 .    
-S2 -> . 
-STAT -> stat .
-STAT -> stat testo .
+S2 -> .  
+STAT -> stat .  
+STAT -> stat testo .  
 M -> messaggio_a TO duepunti titolo testo corpo testo O1 .  
 TO -> testo TO2 .  
 TO2 -> testo TO2 .  
