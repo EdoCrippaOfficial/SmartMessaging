@@ -17,9 +17,9 @@ Oltre a questo si potrà vedere l’utilizzo dell’app da parte di un determina
     <a target="_blank" rel="noopener noreferrer"  href="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L"><img src="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L.svg"></a>
 </div>
 <div style="text-align: center">
-    <br> qua ci mettiamo due screen dell'app
+    <img width=40% src="Android/SmartMessaging/Screenshots/Notifica.png">
+    <img width=40% src="Android/SmartMessaging/Screenshots/App.png">
 </div>
-
 
 ## Documentazione
 Consultare la [wiki](https://github.com/EdoCrippaOfficial/SmartMessaging/wiki) ufficiale
