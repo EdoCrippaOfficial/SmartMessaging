@@ -1,6 +1,6 @@
-<div style="text-align: center">
-    <img src="Android/SmartMessaging/app/src/main/res/drawable/logo.png" title="SmartMessaging" alt="SmartMessaging">
-</div>
+<p align="center">
+  <img src="Android/SmartMessaging/app/src/main/res/drawable/logo.png" title="SmartMessaging" alt="SmartMessaging">
+</p>
 
 
 # SmartMessaging
@@ -21,11 +21,6 @@ Oltre a questo si potrà vedere l’utilizzo dell’app da parte di un determina
 </div>
 
 [![asciicast](https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L.svg)](https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L)
-
-
-<div style="text-align: center">
-    <script id="asciicast-0FQb89ajFCUZ8kqzyXL4mkV7L" src="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L.js" async></script>
-</div>
 
 
 ## Documentazione
