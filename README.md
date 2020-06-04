@@ -13,11 +13,8 @@ Sistema in grado di inviare messaggi da un pc ad un’app Android.
 I messaggi inviati possono essere spediti a più destinatari, possono contenere url ad immagini e hanno una priorità, che modificherà il colore della notifica a seconda dell’importanza.  
 Oltre a questo si potrà vedere l’utilizzo dell’app da parte di un determinato utente attraverso la creazione di statistiche. 
 
-<div>
-    <a href="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L" target="_blank"><img src="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L.svg"></a>
-</div>
-<div>
-    <script id="asciicast-0FQb89ajFCUZ8kqzyXL4mkV7L" src="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L.js" async></script>
+<div style="text-align: center">
+    <a target="_blank" rel="noopener noreferrer"  href="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L"><img src="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L.svg"></a>
 </div>
 <div style="text-align: center">
     <br> qua ci mettiamo due screen dell'app
