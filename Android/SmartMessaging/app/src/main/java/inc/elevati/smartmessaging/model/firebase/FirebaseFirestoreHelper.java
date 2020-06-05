@@ -52,20 +52,20 @@ public class FirebaseFirestoreHelper {
     public void refreshMessages(String userID) {
         FirebaseFirestore dbReference = FirebaseFirestore.getInstance();
         dbReference.collection("messages")
-                .whereArrayContains("visualizing", userID)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        parseData(task.getResult(), userID);
+            .whereArrayContains("visualizing", userID)
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    parseData(task.getResult(), userID);
+                } else {
+                    // Finto refresh
+                    if (messages.getValue() == null) {
+                        messages.setValue(new ArrayList<>());
                     } else {
-                        // Finto refresh
-                        if (messages.getValue() == null) {
-                            messages.setValue(new ArrayList<>());
-                        } else {
-                            messages.setValue(messages.getValue());
-                        }
+                        messages.setValue(messages.getValue());
                     }
-                });
+                }
+            });
     }
 
     private void parseData(QuerySnapshot data, String userID) {

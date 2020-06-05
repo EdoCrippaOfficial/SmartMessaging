@@ -12,7 +12,7 @@ import java.util.List;
 public class SmartMessageCustomListener extends SmartMessageBaseListener {
 
     private int msgCounter;
-    private int priorita = 0;
+    private int priorita = 1;
     private List<Messaggio> messaggi = new ArrayList<>();
     private Messaggio current_msg;
 

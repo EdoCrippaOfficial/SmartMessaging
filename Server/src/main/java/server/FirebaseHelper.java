@@ -3,12 +3,12 @@ package server;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.messaging.*;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -67,7 +67,7 @@ public class FirebaseHelper {
         return result;
     }
 
-    public void sendMessage(Messaggio mess){
+    public void sendMessage(Messaggio mess) {
 
         mess.img = mess.img != null ? mess.img : "";
 
@@ -121,7 +121,7 @@ public class FirebaseHelper {
             int success = response.getSuccessCount();
             int failed = response.getFailureCount();
             String sent = success > 1 ? " messaggi " : " messaggio ";
-            String fail = success > 1 ? " messaggi " : " messaggio ";
+            String fail = failed > 1 ? " messaggi " : " messaggio ";
             if (success > 0)
                 System.out.println("Invio di " + success + sent + "completato con successo.\n");
             if (failed > 0)
@@ -132,12 +132,13 @@ public class FirebaseHelper {
 
         Firestore db = FirestoreClient.getFirestore();
         CollectionReference collectionRef = db.collection("messages");
-        collectionRef.document(messageData.get("id")).create(messageDataDB);
+        collectionRef.document(messageData.get("id")).create(messageDataDB).addListener(() ->
+                System.out.println("Messaggio correttamente salvato nel database."), MoreExecutors.directExecutor());
     }
 
     private void printUser(DocumentSnapshot document) {
         String name = document.getId();
-        long received = (long) document.get("received");
+        long received = document.get("received") == null ? 0 : (long) document.get("received");
         System.out.println("UTENTE: " + name + " | Messaggi ricevuti: " + received);
     }
 
