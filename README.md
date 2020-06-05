@@ -14,7 +14,10 @@ I messaggi inviati possono essere spediti a più destinatari, possono contenere 
 Oltre a questo si potrà vedere l’utilizzo dell’app da parte di un determinato utente attraverso la creazione di statistiche. 
 
 <p align="center">
+    <!---
     <a target="_blank" rel="noopener noreferrer"  href="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L"><img src="https://asciinema.org/a/0FQb89ajFCUZ8kqzyXL4mkV7L.svg"></a>
+    -->
+    <img width=80% src="Server/Terminal.gif">
     <img width=40% src="Android/SmartMessaging/Screenshots/Notifica.png">
     <img width=40% src="Android/SmartMessaging/Screenshots/App.png">
 </p>
